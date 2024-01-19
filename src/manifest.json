@@ -1,0 +1,35 @@
+{
+    "manifest_version": 3,
+    "name": "Channel Blocker",
+    "version": "3.0.0",
+
+    "description": "Allows you to block YouTube™ videos and comments by blacklisting users and/or by using regular expressions.",
+
+    "icons": {
+        "16": "./images/CB_icon_16.png",
+        "32": "./images/CB_icon_32.png",
+        "48": "./images/CB_icon_48.png",
+        "96": "./images/CB_icon_96.png",
+        "128": "./images/CB_icon_128.png"
+    },
+
+    "permissions": ["storage", "unlimitedStorage"],
+
+    "content_scripts": [
+        {
+            "matches": ["*://www.youtube.com/*"],
+            "js": ["content/index.js"]
+        }
+    ],
+    "options_page": "./ui/settings/index.html",
+    "action": {
+        "default_popup": "./ui/popup/index.html",
+        "default_icon": {
+            "16": "./images/CB_icon_16.png",
+            "32": "./images/CB_icon_32.png",
+            "48": "./images/CB_icon_48.png",
+            "96": "./images/CB_icon_96.png",
+            "128": "./images/CB_icon_128.png"
+        }
+    }
+}
