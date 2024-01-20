@@ -18,7 +18,16 @@
     "content_scripts": [
         {
             "matches": ["*://www.youtube.com/*"],
-            "js": ["content/index.js"]
+            "js": [
+                "content/enums.js",
+                "content/interfaces.js",
+                "content/helper/index.js",
+                "content/helper/blockBtn.js",
+                "content/storage/index.js",
+                "content/context/index.js",
+                "content/observer/index.js",
+                "content/index.js"
+            ]
         }
     ],
     "options_page": "./ui/settings/index.html",
