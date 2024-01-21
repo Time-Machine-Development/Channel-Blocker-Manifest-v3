@@ -15,12 +15,18 @@
 
     "permissions": ["storage", "unlimitedStorage"],
 
+    "background": {
+        "service_worker": "background/index.js"
+    },
+
     "content_scripts": [
         {
             "matches": ["*://www.youtube.com/*"],
             "js": [
                 "content/enums.js",
+                "shared/enums.js",
                 "content/interfaces.js",
+                "shared/interfaces.js",
                 "content/helper/index.js",
                 "content/helper/blockBtn.js",
                 "content/storage/index.js",

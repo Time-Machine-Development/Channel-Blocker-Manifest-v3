@@ -8,7 +8,8 @@
         "build-manifest": "cp ./src/manifest.json ./dist/manifest.json",
         "build-images": "cp -R ./src/images ./dist/images",
         "build-ui": "cp -R ./src/ui ./dist/ui",
-        "build": "tsc && npm run build-manifest && npm run build-images && npm run build-ui"
+        "build-service-worker": "node ./package.js",
+        "build": "tsc && npm run build-manifest && npm run build-images && npm run build-ui && npm run build-service-worker"
     },
     "repository": {
         "type": "git",

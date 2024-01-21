@@ -53,7 +53,22 @@ function isCommentContentBlocked(title: string): boolean {
     return false;
 }
 
-function blockUserChannel(userChannelName: string) {
-    blockedChannelsSet.add(userChannelName);
+async function blockUserChannel(userChannelName: string) {
+    const message: AddBlockedUserMessage = {
+        sender: CommunicationRole.SERVICE_WORKER,
+        receiver: CommunicationRole.SERVICE_WORKER,
+        type: MessageType.ADD_BLOCKED_USER,
+        content: {
+            userChannelName,
+        },
+    };
+    const sending = await sendMessage(message);
+    //blockedChannelsSet.add(userChannelName);
     updateObserver();
+}
+
+async function sendMessage(message: Message) {
+    console.log(`send ${MessageType[message.type]}`);
+
+    return chrome.runtime.sendMessage(message);
 }
