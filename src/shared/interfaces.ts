@@ -10,3 +10,15 @@ interface AddBlockedUserMessage extends Message {
         userChannelName: string;
     };
 }
+
+interface IsBlockedMessage extends Message {
+    content: {
+        videoTitle?: string;
+        userChannelName?: string;
+        commentContent?: string;
+    };
+}
+
+interface StorageChangedMessage extends Message {
+    content: undefined;
+}

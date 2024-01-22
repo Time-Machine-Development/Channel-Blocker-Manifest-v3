@@ -13,7 +13,7 @@
         "128": "./images/CB_icon_128.png"
     },
 
-    "permissions": ["storage", "unlimitedStorage"],
+    "permissions": ["storage", "unlimitedStorage", "tabs"],
 
     "background": {
         "service_worker": "background/index.js"

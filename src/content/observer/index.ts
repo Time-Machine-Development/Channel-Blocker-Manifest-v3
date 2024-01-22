@@ -64,16 +64,15 @@ class Observer {
     }
 
     private async addCharacterDataSelector(element: Element) {
-        let userChannelName: string | null = null;
-        let videoTitle: string | null = null;
-        let commentContent: string | null = null;
+        let userChannelName: string | undefined;
+        let videoTitle: string | undefined;
+        let commentContent: string | undefined;
 
-        const checkIfElementIsBlocked = () => {
-            const isBlocked =
-                (userChannelName !== null && isUserChannelBlocked(userChannelName)) ||
-                (videoTitle !== null && isVideoTitleBlocked(videoTitle)) ||
-                (commentContent !== null && isCommentContentBlocked(commentContent));
-            element.classList.toggle("blocked", isBlocked);
+        const checkIfElementIsBlocked = async () => {
+            const blocked = await isBlocked({ userChannelName, videoTitle, commentContent });
+            console.log(`blocked ${blocked}`);
+
+            element.classList.toggle("blocked", blocked);
         };
         this.isBlockedValidators.push(checkIfElementIsBlocked);
 
@@ -86,14 +85,14 @@ class Observer {
 
             let button = createBlockBtnElement("");
             button.addEventListener("click", () => {
-                if (userChannelName !== null) {
+                if (userChannelName !== undefined) {
                     blockUserChannel(userChannelName);
                 }
             });
             userChannelNameElement.insertAdjacentElement("beforebegin", button);
 
             const handleUserChannelName = () => {
-                userChannelName = userChannelNameElement.textContent;
+                userChannelName = userChannelNameElement.textContent ?? undefined;
                 console.log("Changed Channel: " + userChannelName);
                 button.setAttribute("title", "Block '" + userChannelName + "' (Channel Blocker)");
                 checkIfElementIsBlocked();
@@ -108,7 +107,7 @@ class Observer {
             const videoTitleElement = await getElement(this.videoTitle, element);
 
             const handleVideoTitle = () => {
-                videoTitle = videoTitleElement.textContent;
+                videoTitle = videoTitleElement.textContent ?? undefined;
                 console.log("Changed Title: " + videoTitle);
                 checkIfElementIsBlocked();
             };
@@ -165,3 +164,20 @@ function updateObserver() {
         activeObserver[index].update();
     }
 }
+
+chrome.runtime.onMessage.addListener((message: Message, sender: chrome.runtime.MessageSender) => {
+    console.log(`new ${MessageType[message.type]} message`);
+
+    if (message.receiver !== CommunicationRole.CONTENT_SCRIPT) return;
+
+    console.log(`new ${MessageType[message.type]} message`);
+
+    switch (message.type) {
+        case MessageType.STORAGE_CHANGED:
+            updateObserver();
+            break;
+
+        default:
+            break;
+    }
+});
