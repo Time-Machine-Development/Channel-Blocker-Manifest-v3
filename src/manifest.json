@@ -36,9 +36,11 @@
             ]
         }
     ],
+
     "options_page": "./ui/settings/index.html",
+
     "action": {
-        "default_popup": "./ui/popup/index.html",
+        "default_title": "Channel Blocker (Configuration)",
         "default_icon": {
             "16": "./images/CB_icon_16.png",
             "32": "./images/CB_icon_32.png",

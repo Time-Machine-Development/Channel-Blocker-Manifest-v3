@@ -153,8 +153,10 @@ function createHomeObserver(): Observer[] {
     return [
         new Observer("div#contents[class='style-scope ytd-rich-grid-renderer']", {
             anchorSelector: "ytd-rich-item-renderer[class='style-scope ytd-rich-grid-row']",
-            userChannelName: "a[class='yt-simple-endpoint style-scope yt-formatted-string']", // "yt-formatted-string#text[class='style-scope ytd-channel-name complex-string']", //
-            videoTitle: "yt-formatted-string#video-title[class='style-scope ytd-rich-grid-media']",
+            userChannelName:
+                "a[class='yt-simple-endpoint style-scope yt-formatted-string'], yt-formatted-string#text[class='style-scope ytd-channel-name']", // "yt-formatted-string#text[class='style-scope ytd-channel-name complex-string']"
+            videoTitle:
+                "yt-formatted-string#video-title[class='style-scope ytd-rich-grid-media'], yt-formatted-string#video-title[class='style-scope ytd-ad-inline-playback-meta-block']",
         }),
     ];
 }

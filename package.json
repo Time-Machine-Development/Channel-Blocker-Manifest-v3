@@ -7,9 +7,10 @@
         "dev": "tsc -w",
         "build-manifest": "cp ./src/manifest.json ./dist/manifest.json",
         "build-images": "cp -R ./src/images ./dist/images",
-        "build-ui": "cp -R ./src/ui ./dist/ui",
+        "build-ui": "rm -r ./dist/ui && cp -R ./src/ui ./dist/ui",
+        "build-sass": "node-sass --include-path sass ./dist/ui/settings/style --output ./dist/ui/settings/style",
         "build-service-worker": "node ./package.js",
-        "build": "tsc && npm run build-manifest && npm run build-images && npm run build-ui && npm run build-service-worker"
+        "build": "npm run build-ui && npm run build-sass && tsc && npm run build-manifest && npm run build-images && npm run build-service-worker"
     },
     "repository": {
         "type": "git",
@@ -28,8 +29,9 @@
     },
     "homepage": "https://github.com/Time-Machine-Development/Channel-Blocker#readme",
     "devDependencies": {
-        "typescript": "^5.3.3",
+        "@types/chrome": "^0.0.254",
         "chrome-types": "^0.1.246",
-        "@types/chrome": "^0.0.254"
+        "node-sass": "^9.0.0",
+        "typescript": "^5.3.3"
     }
 }

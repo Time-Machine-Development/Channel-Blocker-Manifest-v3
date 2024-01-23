@@ -1,0 +1,28 @@
+#rules-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 2rem;
+
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    select {
+        width: 100%;
+        background-color: var(--primary-bg-color-darken);
+        color: var(--secondary-font-color);
+    }
+
+    button {
+        background-color: var(--primary-color);
+        color: var(--secondary-font-color);
+        margin: 1rem;
+        padding: 1rem;
+    }
+}

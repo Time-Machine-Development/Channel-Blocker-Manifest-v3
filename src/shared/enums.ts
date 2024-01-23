@@ -1,5 +1,6 @@
 enum MessageType {
-    ADD_BLOCKED_USER,
+    ADD_BLOCKING_RULE,
+    REMOVE_BLOCKING_RULE,
     IS_BLOCKED,
     STORAGE_CHANGED,
 }
@@ -7,4 +8,5 @@ enum MessageType {
 enum CommunicationRole {
     SERVICE_WORKER,
     CONTENT_SCRIPT,
+    SETTINGS,
 }

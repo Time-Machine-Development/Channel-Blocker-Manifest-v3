@@ -5,9 +5,23 @@ interface Message {
     content: any;
 }
 
-interface AddBlockedUserMessage extends Message {
+interface AddBlockingRuleMessage extends Message {
     content: {
-        userChannelName: string;
+        blockedChannel?: string;
+        excludedChannel?: string;
+        blockingChannelRegExp?: string;
+        blockingCommentRegExp?: string;
+        blockingVideoTitleRegExp?: string;
+    };
+}
+
+interface RemoveBlockingRuleMessage extends Message {
+    content: {
+        blockedChannel?: string[];
+        excludedChannel?: string[];
+        blockingChannelRegExp?: string[];
+        blockingCommentRegExp?: string[];
+        blockingVideoTitleRegExp?: string[];
     };
 }
 

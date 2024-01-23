@@ -12,12 +12,12 @@ async function isBlocked(content: { videoTitle?: string; userChannelName?: strin
 }
 
 async function blockUserChannel(userChannelName: string) {
-    const message: AddBlockedUserMessage = {
+    const message: AddBlockingRuleMessage = {
         sender: CommunicationRole.CONTENT_SCRIPT,
         receiver: CommunicationRole.SERVICE_WORKER,
-        type: MessageType.ADD_BLOCKED_USER,
+        type: MessageType.ADD_BLOCKING_RULE,
         content: {
-            userChannelName,
+            blockedChannel: userChannelName,
         },
     };
     const sending = await sendMessage(message);
