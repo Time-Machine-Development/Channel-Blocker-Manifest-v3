@@ -1,0 +1,26 @@
+{
+    "name": "channel-blocker-ui",
+    "version": "1.0.0",
+    "description": "The ui for the channel blocker extension.",
+    "main": "index.js",
+    "scripts": {
+        "build-sass": "node-sass --include-path sass ./settings/style --output ../dist/ui/settings/style",
+        "build": "tsc && npm run build-sass"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Time-Machine-Development/Channel-Blocker.git"
+    },
+    "author": "Marc Beyer",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Time-Machine-Development/Channel-Blocker/issues"
+    },
+    "homepage": "https://github.com/Time-Machine-Development/Channel-Blocker#readme",
+    "devDependencies": {
+        "@types/chrome": "^0.0.254",
+        "chrome-types": "^0.1.246",
+        "node-sass": "^9.0.0",
+        "typescript": "^5.3.3"
+    }
+}

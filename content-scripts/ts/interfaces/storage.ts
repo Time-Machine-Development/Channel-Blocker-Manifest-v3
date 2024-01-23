@@ -1,18 +1,3 @@
-interface ObserverOptions {
-    anchorSelector: string;
-    videoTitle?: string;
-    userChannelName?: string;
-    commentContent?: string;
-}
-
-interface RegExpContextMap {
-    [key: string]: YTContext;
-}
-
-interface KeyValueMap {
-    [key: string]: string;
-}
-
 interface OldStorageObject {
     "0"?: { [key: string]: number };
     "1"?: { [key: string]: number };

@@ -16,23 +16,22 @@
     "permissions": ["storage", "unlimitedStorage", "tabs"],
 
     "background": {
-        "service_worker": "background/index.js"
+        "service_worker": "service-worker/index.js",
+        "type": "module"
     },
 
     "content_scripts": [
         {
             "matches": ["*://www.youtube.com/*"],
             "js": [
-                "content/enums.js",
-                "shared/enums.js",
-                "content/interfaces.js",
-                "shared/interfaces.js",
-                "content/helper/index.js",
-                "content/helper/blockBtn.js",
-                "content/storage/index.js",
-                "content/context/index.js",
-                "content/observer/index.js",
-                "content/index.js"
+                "content-scripts/enums/enums.js",
+                "content-scripts/enums/messages.js",
+                "content-scripts/helper/index.js",
+                "content-scripts/helper/blockBtn.js",
+                "content-scripts/storage/index.js",
+                "content-scripts/context/index.js",
+                "content-scripts/observer/index.js",
+                "content-scripts/index.js"
             ]
         }
     ],

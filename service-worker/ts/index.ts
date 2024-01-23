@@ -1,9 +1,17 @@
+import { CommunicationRole, MessageType } from "./enums.js";
+import {
+    AddBlockingRuleMessage,
+    IsBlockedMessage,
+    KeyValueMap,
+    Message,
+    RemoveBlockingRuleMessage,
+    StorageChangedMessage,
+    StorageObject,
+} from "./interfaces.js";
+
 console.log("START");
 
 let storageObject: { [key: string]: number } = {};
-
-//chrome.storage.local.set({ version: 1.0 });
-//chrome.storage.local.set({ settings: { open_popup: false } });
 
 let defaultStorage: StorageObject = {
     version: 0,

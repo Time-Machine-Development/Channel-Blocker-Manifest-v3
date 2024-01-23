@@ -1,3 +1,6 @@
+import { CommunicationRole, MessageType } from "./enums.js";
+import { AddBlockingRuleMessage, KeyValueMap, Message, RemoveBlockingRuleMessage, StorageObject } from "./interfaces.js";
+
 console.log("Settings scripts");
 
 {
@@ -87,12 +90,17 @@ console.log("Settings scripts");
             blockedChannelsInput.value = "";
         });
         blockedChannelsRemoveBtn.addEventListener("click", () => {
+            let selectedOptions = [];
+            for (let index = 0; index < blockedChannelsSelect.options.length; index++) {
+                const option = blockedChannelsSelect.options[index];
+                if (option.selected) selectedOptions.push(option.value);
+            }
             const message: RemoveBlockingRuleMessage = {
                 sender: CommunicationRole.SETTINGS,
                 receiver: CommunicationRole.SERVICE_WORKER,
                 type: MessageType.REMOVE_BLOCKING_RULE,
                 content: {
-                    blockedChannel: blockedChannelsSelect.value,
+                    blockedChannel: selectedOptions,
                 },
             };
             chrome.runtime.sendMessage(message);

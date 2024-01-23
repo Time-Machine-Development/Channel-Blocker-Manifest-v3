@@ -5,12 +5,7 @@
     "main": "index.js",
     "scripts": {
         "dev": "tsc -w",
-        "build-manifest": "cp ./src/manifest.json ./dist/manifest.json",
-        "build-images": "cp -R ./src/images ./dist/images",
-        "build-ui": "rm -r ./dist/ui && cp -R ./src/ui ./dist/ui",
-        "build-sass": "node-sass --include-path sass ./dist/ui/settings/style --output ./dist/ui/settings/style",
-        "build-service-worker": "node ./package.js",
-        "build": "npm run build-ui && npm run build-sass && tsc && npm run build-manifest && npm run build-images && npm run build-service-worker"
+        "build": "tsc"
     },
     "repository": {
         "type": "git",
@@ -31,7 +26,6 @@
     "devDependencies": {
         "@types/chrome": "^0.0.254",
         "chrome-types": "^0.1.246",
-        "node-sass": "^9.0.0",
         "typescript": "^5.3.3"
     }
 }
