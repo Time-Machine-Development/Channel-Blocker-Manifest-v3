@@ -11,18 +11,35 @@
 </head>
 
 <body>
-    <h1>Settings</h1>
-    <div id="rules-section">
-        <div class="container">
-            <input type="text" id="blocked-channels-input">
-            <button id="blocked-channels-add-btn">add</button>
-        </div>
-        <div class="container">
-            <select name="blocked-channels" id="blocked-channels" multiple="multiple">
-                <option value="test">test</option>
-                <option value="test1">test1</option>
-            </select>
-            <button id="blocked-channels-remove-btn">remove</button>
+    <div id="main-container">
+        <nav id="main-nav">
+            <h1>Settings</h1>
+            <ul>
+                <li>Blocked Channels</li>
+                <li>Blocked Titles</li>
+                <li>Blocked Names</li>
+                <li>Blocked Comments</li>
+                <li>Excluded Channels</li>
+                <li>Appearance</li>
+                <li>Import/Export</li>
+            </ul>
+        </nav>
+        <div id="rules-section">
+            <h2>Blocked users/channels</h2>
+            <div class="card">
+                <div class="textfield">
+                    <input type="text" id="blocked-channels-input">
+                </div>
+                <button id="blocked-channels-add-btn" class="outlined">add</button>
+
+                <hr>
+
+                <select name="blocked-channels" id="blocked-channels" multiple="multiple">
+                    <option value="test">test</option>
+                    <option value="test1">test1</option>
+                </select>
+                <button id="blocked-channels-remove-btn">remove</button>
+            </div>
         </div>
     </div>
 </body>

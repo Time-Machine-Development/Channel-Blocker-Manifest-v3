@@ -14,44 +14,40 @@ body {
     --size-3: 1.5rem;
 
     --background-color: #ffffff;
+    --surface-color: #ffffff;
+    --input-color: #edf1fa;
 
-    --primary-color: #{$primary-color};
-    --primary-color-darken: #{$primary-color-darken};
-    --primary-color-lighten: #{$primary-color-lighten};
-    --primary-bg-color: #ffffff;
-    --primary-bg-color-darken: #{darken(#ffffff, 15%)};
-    --primary-line-color: rgb(0, 0, 0);
+    --font-color: #141414;
 
-    --hover-color-transparent: rgba(0, 0, 0, 0.4);
-    --hover-color: #{darken(#0078d4, 20%)};
+    --primary-color: #0078d4;
+    --on-primary-color: #e3e3e3;
 
-    --font-color: #ffffff;
-    --font-color-darken: #{darken(#ffffff, 30%)};
-    --font-color-deactivated: rgb(92, 92, 92);
+    --hr-color: #f0f0f0;
 
-    --secondary-font-color: #141414;
+    --border-color: #c7c7c7;
+    --border-color-active: #0078d4;
 
-    --zoom-size: 1px;
+    --highlight-color: #ededed;
+    --primary-highlight-color: #005ea7;
 }
 
 @media (prefers-color-scheme: dark) {
     body {
-        --background-color: #181a1b;
+        --background-color: #202124;
+        --surface-color: #292a2d;
+        --input-color: #282828;
 
-        --primary-color: #{$primary-color-dark-mode};
-        --primary-color-darken: #{$primary-color-darken-dark-mode};
-        --primary-color-lighten: #{$primary-color-lighten-dark-mode};
-        --primary-bg-color: #181a1b;
-        --primary-bg-color-darken: #{darken(#181a1b, 5%)};
-        --primary-line-color: #c2c2c2;
+        --font-color: #e3e3e3;
 
-        --hover-color-transparent: rgba(0, 0, 0, 0.4);
-        --hover-color: #{darken(#0060aa, 20%)};
+        --primary-color: #005ea7;
+        --on-primary-color: #e3e3e3;
 
-        --font-color: #ffffff;
-        --font-color-darken: #{darken(#ffffff, 30%)};
-        --font-color-deactivated: rgb(92, 92, 92);
+        --hr-color: #3f4042;
 
-        --secondary-font-color: #ffffff;
+        --border-color: #757575;
+        --border-color-active: #acc6f9;
+
+        --highlight-color: #38393b;
+        --primary-highlight-color: #0078d4;
     }
 }

@@ -1,0 +1,23 @@
+#main-container {
+    display: flex;
+    flex-direction: row;
+}
+
+#rules-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    padding: 2rem;
+
+    h2 {
+        width: 680px;
+        min-width: 550px;
+        max-width: 680px;
+
+        font-size: 14px;
+        font-weight: 500;
+    }
+}

@@ -74,6 +74,9 @@ console.log("Settings scripts");
             option.innerText = blockedChannel;
             blockedChannelsSelect.append(option);
         });
+
+        blockedChannelsSelect.classList.toggle("larger", blockedChannelsSet.size > 4);
+        blockedChannelsSelect.classList.toggle("largest", blockedChannelsSet.size > 8);
     }
 
     (function initUI() {

@@ -2,6 +2,121 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
 
-    background-color: var(--primary-bg-color);
-    color: var(--secondary-font-color);
+    background-color: var(--background-color);
+    color: var(--font-color);
+}
+
+.card {
+    background-color: var(--surface-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: color-mix(in srgb, rgb(0, 0, 0) 30%, transparent) 0 1px 2px 0,
+        color-mix(in srgb, rgb(0, 0, 0) 15%, transparent) 0 2px 6px 2px;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 8px;
+    width: 680px;
+    min-width: 550px;
+    max-width: 680px;
+}
+
+.textfield {
+    height: 36px;
+    padding: 0 16px;
+
+    background-color: var(--input-color);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+
+    input[type="text"] {
+        width: 100%;
+
+        border: none;
+        background-color: var(--input-color);
+        color: var(--font-color);
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &:focus-within {
+        border: 2px solid var(--border-color-active);
+    }
+}
+
+button {
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+    padding: var(--size-05);
+    margin: 16px 0 0 0;
+    border-radius: var(--size-1);
+    border: none;
+    min-width: 100px;
+
+    &:hover {
+        background-color: var(--primary-highlight-color);
+    }
+
+    &.outlined {
+        background-color: var(--surface-color);
+        border: 2px solid var(--primary-highlight-color);
+        color: var(--primary-highlight-color);
+
+        &:hover {
+            background-color: var(--highlight-color);
+        }
+    }
+}
+
+hr {
+    height: 2px;
+    width: 100%;
+    margin: 16px 0;
+    background-color: var(--hr-color);
+}
+
+select[multiple="multiple"] {
+    width: 100%;
+    background-color: var(--background-color);
+    color: var(--font-color);
+
+    option {
+        padding: var(--size-05);
+
+        &:checked {
+            background-color: var(--primary-color);
+            color: var(--on-primary-color);
+        }
+
+        &:hover {
+            background-color: var(--highlight-color);
+            color: var(--font-color);
+        }
+
+        &:hover &:checked {
+            background-color: red;
+            color: var(--font-color);
+        }
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--primary-color);
+        border-radius: 5px;
+        margin: 1px;
+    }
+    &::-webkit-scrollbar-track {
+        background-color: var(--highlight-color);
+        border-radius: 5px;
+    }
+
+    &.larger {
+        height: 250px;
+    }
+
+    &.largest {
+        height: 375px;
+    }
 }
