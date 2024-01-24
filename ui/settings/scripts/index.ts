@@ -111,7 +111,7 @@ console.log("Settings scripts");
     })();
 
     chrome.runtime.onMessage.addListener((message: Message, sender: chrome.runtime.MessageSender) => {
-        console.log(`new ${MessageType[message.type]} message`);
+        console.log(`new ${MessageType[message.type]} message for ${CommunicationRole[message.receiver]}`);
 
         if (message.receiver !== CommunicationRole.SETTINGS) return;
 

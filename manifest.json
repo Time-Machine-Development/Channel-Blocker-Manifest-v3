@@ -30,6 +30,7 @@
                 "content-scripts/helper/blockBtn.js",
                 "content-scripts/storage/index.js",
                 "content-scripts/context/index.js",
+                "content-scripts/observer/observer.js",
                 "content-scripts/observer/index.js",
                 "content-scripts/index.js"
             ]

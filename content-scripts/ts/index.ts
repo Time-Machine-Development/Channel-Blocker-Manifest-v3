@@ -5,7 +5,7 @@ initBlockBtnCSS();
 function loadContext() {
     const context = getYTContext();
     console.log(YTContext[context]);
-    updateObservers(context);
+    handleContextChange(context);
 }
 
 addTitleChangeObserver(loadContext);

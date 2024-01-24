@@ -168,12 +168,18 @@ async function sendStorageChangedMessage() {
         for (let index = 0; index < tabs.length; index++) {
             const tab = tabs[index];
             if (tab.id !== undefined) chrome.tabs.sendMessage(tab.id, storageChangedMessage);
+            console.log(`send storageChangedMessage to ${tab.id}`);
         }
     });
 
     if (configTabId !== undefined) {
-        storageChangedMessage.receiver = CommunicationRole.SETTINGS;
-        chrome.tabs.sendMessage(configTabId, storageChangedMessage);
+        const storageChangedMessageForSettings = {
+            sender: CommunicationRole.SERVICE_WORKER,
+            receiver: CommunicationRole.SETTINGS,
+            type: MessageType.STORAGE_CHANGED,
+            content: undefined,
+        };
+        chrome.tabs.sendMessage(configTabId, storageChangedMessageForSettings);
     }
 }
 
