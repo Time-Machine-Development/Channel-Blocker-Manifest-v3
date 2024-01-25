@@ -11,37 +11,213 @@
 </head>
 
 <body>
+    <header>
+        <h1>Settings</h1>
+    </header>
     <div id="main-container">
         <nav id="main-nav">
-            <h1>Settings</h1>
             <ul>
-                <li>Blocked Channels</li>
-                <li>Blocked Titles</li>
-                <li>Blocked Names</li>
-                <li>Blocked Comments</li>
-                <li>Excluded Channels</li>
-                <li>Appearance</li>
-                <li>Import/Export</li>
+                <li id="blocked-channels-nav">Blocked Channels</li>
+                <li id="blocked-titles-nav">Blocked Titles</li>
+                <li id="blocked-names-nav">Blocked Names</li>
+                <li id="blocked-comments-nav">Blocked Comments</li>
+                <li id="excluded-channels-nav">Excluded Channels</li>
+                <hr>
+                <li id="appearance-nav">Appearance</li>
+                <li id="import-export-nav">Import/Export</li>
+                <hr>
+                <li id="about-nav">About Channel Blocker</li>
+                <li id="faq-nav">FAQ</li>
             </ul>
         </nav>
-        <div id="rules-section">
-            <h2>Blocked users/channels</h2>
-            <div class="card">
+        <div id="rules-section" class="section">
+            <h2 id="heading">Blocked users/channels</h2>
+            <div id="rules-card" class="card">
                 <div class="textfield">
                     <input type="text" id="blocked-channels-input">
+                    <button id="blocked-channels-add-btn">add</button>
                 </div>
-                <button id="blocked-channels-add-btn" class="outlined">add</button>
-
-                <hr>
-
                 <select name="blocked-channels" id="blocked-channels" multiple="multiple">
                     <option value="test">test</option>
                     <option value="test1">test1</option>
                 </select>
-                <button id="blocked-channels-remove-btn">remove</button>
+                <div class="align-right">
+                    <button id="blocked-channels-remove-btn">remove</button>
+                </div>
             </div>
         </div>
-    </div>
+        <div id="appearance-section" class="section">
+            <h2>Design</h2>
+            <div id="design-card" class="card">
+                <div class="settings-row">
+                    <label for="mode-dropdown">Configuration page design</label>
+                    <select name="mode-dropdown" id="mode-dropdown">
+                        <option value="Device">Device</option>
+                        <option value="Dark">Dark</option>
+                        <option value="Light">Light</option>
+                    </select>
+                </div>
+                <hr>
+                <div class="settings-row">
+                    <label for="block-btn-color-picker">Color of block-buttons</label>
+                    <input type="color" name="block-btn-color-picker" id="block-btn-color-picker">
+                </div>
+                <hr>
+                <div class="settings-row">
+                    <label for="btn-size-slider">Size of block-buttons</label>
+                    <input type="range" name="btn-size-slider" id="btn-size-slider">
+                </div>
+                <hr>
+                <div class="settings-row">
+                    <label for="popup-checkbox">Open quick popup when pressing toolbar-button</label>
+                    <input type="checkbox" name="popup-checkbox" id="popup-checkbox">
+                </div>
+            </div>
+            <h2>Visibility</h2>
+            <div id="visibility-card" class="card">
+                <div class="settings-row">
+                    <label for="show-btn-checkbox">Show block-buttons</label>
+                    <input type="checkbox" name="show-btn-checkbox" id="show-btn-checkbox">
+                </div>
+                <hr>
+                <div class="settings-row">
+                    <label for="animation-speed-slider">Speed of block-animation</label>
+                    <input type="range" name="animation-speed-slider" id="animation-speed-slider">
+                </div>
+            </div>
+        </div>
+        <div id="import-export-section" class="section">
+            <h2>Import/Export Your Configuration</h2>
+            <div id="import-export-card" class="card">
+                <div class="settings-row">
+                    <button>Import</button>
+                </div>
+                <hr>
+                <div class="settings-row">
+                    <button>Export</button>
+                </div>
+            </div>
+        </div>
+        <div id="about-section" class="section">
+            <h2>About Channel Blocker</h2>
+            <div id="about-card" class="card">
+                <div>
+                    <p>
+                        Channel Blocker empowers you to block channels effortlessly with just one
+                        click.
+                        It also supports regular expressions for unparalleled customization, allowing you to tailor your
+                        YouTube™ experience to your preferences.
+                        And another thing: Our commitment to privacy means no user information is collected.
+                    </p>
+                </div>
+                <hr>
+                <div>
+                    <h4>Support Us and Our Work:</h4>
+                    <p>
+                        Do you like what we do? Do you want to support us and our work? A subscription on Patreon would
+                        help
+                        a lot at developing this tool as well as realizing our future projects.
+                    </p>
+                </div>
+                <hr>
+                <div>
+                    <p>Email: Contact us at <a href="mailto:yt-cleaner@protonmail.com">yt-cleaner@protonmail.com</a></p>
+                    <p>
+                        GitHub: Find the source code on
+                        <a href="https://github.com/Time-Machine-Development/Channel-Blocker">
+                            https://github.com/Time-Machine-Development/Channel-Blocker
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div id="faq-section" class="section">
+            <h2>FAQ</h2>
+            <div id="faq-card" class="card">
+                <div id="faq-permission-heading" class="settings-row faq-heading">
+                    <h3>Why does this add-on require permissions?</h3>
+                </div>
+                <div id="faq-permission-section" class="faq-section">
+                    <h4>Access to Your Data on www.youtube.com:</h4>
+                    <p>
+                        - This permission is necessary for functionalities such as removing users/channels you have
+                        blocked
+                        on YouTube™ and adding the 'x'-button.
+                        It allows the add-on to interact with and modify your YouTube™ data as needed.
+                    </p>
+                    <h4>Access to Browser Tabs:</h4>
+                    <p>
+                        - This permission is essential for keeping track of your active YouTube™ tabs and managing the
+                        Add-on setting page tab.
+                    </p>
+                    <h4>Storage of Unlimited Client-Side Data:</h4>
+                    <p>
+                        - This permission is required to store an unlimited amount of client-side data, enabling the
+                        add-on
+                        to effectively block any number of users or channels.
+                    </p>
+                </div>
+                <hr>
+
+                <div id="faq-contact-heading" class="settings-row faq-heading">
+                    <h3>Encountered a Bug, Have a Feature Idea, or Need Assistance?</h3>
+                </div>
+                <div id="faq-contact-section" class="faq-section">
+                    <p>
+                        If you've identified a bug, have a suggestion for a new feature, or need help with any
+                        questions,
+                        please don't hesitate to reach out. We value your feedback and are here to assist you.
+                    </p>
+                    <h4>How to Get in Touch:</h4>
+                    <p>Email: Contact us at <a href=" mailto:yt-cleaner@protonmail.com">yt-cleaner@protonmail.com</a>
+                    </p>
+                </div>
+                <hr>
+
+                <div id="faq-privacy-heading" class="settings-row faq-heading">
+                    <h3>Do you collect any data?</h3>
+                </div>
+                <div id="faq-privacy-section" class="faq-section">
+                    <p>
+                        We want to assure you that we <span class="strong">do not</span> collect any data from you in
+                        any form.
+                        Your privacy is important to us, and our commitment is to ensure that your usage remains secure
+                        and confidential.
+                    </p>
+                </div>
+                <hr>
+
+                <div id="faq-troubleshooting-heading" class="settings-row faq-heading">
+                    <h3>Troubleshooting Guide: Add-on Not Functioning</h3>
+                </div>
+                <div id="faq-troubleshooting-section" class="faq-section">
+                    <h4>Check for Updates</h4>
+                    <p>
+                        Ensure that you have the latest version of Channel Blocker installed. If not, update to the
+                        newest version for optimal performance.
+                    </p>
+
+                    <h4>Mobile Compatibility</h4>
+                    <p>
+                        If you are using a phone, we are sorry but this add-on doesn't work on mobile browsers.
+                    </p>
+
+                    <h4>Reporting a Bug</h4>
+                    <p>
+                        If you have the latest version and still encounter issues, use our bug report feature. Visit the
+                        YouTube™ page where the problem occurs, right-click with your mouse, and select the "Report a
+                        bug on this page" option.
+                    </p>
+
+                    <h4>Bug Report Submission</h4>
+                    <p>
+                        Complete the required fields in the newly created bug report tab, save the report, and send it
+                        to <a href="mailto:yt-cleaner@protonmail.com">yt-cleaner@protonmail.com</a>. Including detailed
+                        information helps us address and resolve the issue promptly.
+                    </p>
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>

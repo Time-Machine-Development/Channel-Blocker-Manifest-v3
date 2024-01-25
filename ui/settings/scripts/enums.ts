@@ -16,3 +16,15 @@ export enum SettingsDesign {
     DARK,
     LICHT,
 }
+
+export enum SettingsState {
+    BLOCKED_CHANNELS,
+    BLOCKED_TITLES,
+    BLOCKED_NAMES,
+    BLOCKED_COMMENTS,
+    EXCLUDED_CHANNELS,
+    APPEARANCE,
+    IMPORT_EXPORT,
+    ABOUT,
+    FAQ,
+}

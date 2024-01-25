@@ -5,6 +5,7 @@ class Observer {
     private videoTitle?: string;
     private userChannelName?: string;
     private commentContent?: string;
+    private insertBlockBtn?: (element: HTMLElement, userChannelNameElement: HTMLElement, button: HTMLButtonElement) => void;
 
     private observedElements: Element[] = [];
     private activeMutationObserver: MutationObserver[] = [];
@@ -16,6 +17,7 @@ class Observer {
         this.videoTitle = observerOptions.videoTitle;
         this.userChannelName = observerOptions.userChannelName;
         this.commentContent = observerOptions.commentContent;
+        this.insertBlockBtn = observerOptions.insertBlockBtn;
 
         this.addObserver();
     }
@@ -89,7 +91,12 @@ class Observer {
                     blockUserChannel(userChannelName);
                 }
             });
-            userChannelNameElement.insertAdjacentElement("beforebegin", button);
+
+            if (this.insertBlockBtn) {
+                this.insertBlockBtn(element as HTMLElement, userChannelNameElement as HTMLElement, button);
+            } else {
+                userChannelNameElement.insertAdjacentElement("beforebegin", button);
+            }
 
             const handleUserChannelName = () => {
                 userChannelName = userChannelNameElement.textContent ?? undefined;

@@ -3,6 +3,7 @@ interface ObserverOptions {
     videoTitle?: string;
     userChannelName?: string;
     commentContent?: string;
+    insertBlockBtn?: (element: HTMLElement, userChannelNameElement: HTMLElement, button: HTMLButtonElement) => void;
 }
 
 interface RegExpContextMap {

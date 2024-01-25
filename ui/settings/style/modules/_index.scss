@@ -6,22 +6,39 @@ body {
     color: var(--font-color);
 }
 
+a {
+    color: var(--primary-highlight-color);
+}
+
+.strong {
+    font-weight: bolder;
+}
+
 .card {
+    display: flex;
+    flex-direction: column;
+
     background-color: var(--surface-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     box-shadow: color-mix(in srgb, rgb(0, 0, 0) 30%, transparent) 0 1px 2px 0,
         color-mix(in srgb, rgb(0, 0, 0) 15%, transparent) 0 2px 6px 2px;
     border-radius: 8px;
-    padding: 16px;
+    padding: 16px 0;
     margin: 8px;
-    width: 680px;
+    width: 100%;
     min-width: 550px;
     max-width: 680px;
+
+    div {
+        margin-left: 16px;
+        margin-right: 16px;
+    }
 }
 
 .textfield {
+    display: flex;
     height: 36px;
-    padding: 0 16px;
+    padding: 0 0 0 16px;
 
     background-color: var(--input-color);
     border: 1px solid var(--border-color);
@@ -39,6 +56,17 @@ body {
         }
     }
 
+    button {
+        background-color: var(--surface-color);
+        color: var(--primary-highlight-color);
+        margin: 0 0 0 8px;
+        border: none;
+
+        &:hover {
+            background-color: var(--highlight-color);
+        }
+    }
+
     &:focus-within {
         border: 2px solid var(--border-color-active);
     }
@@ -48,7 +76,6 @@ button {
     background-color: var(--primary-color);
     color: var(--on-primary-color);
     padding: var(--size-05);
-    margin: 16px 0 0 0;
     border-radius: var(--size-1);
     border: none;
     min-width: 100px;
@@ -76,9 +103,9 @@ hr {
 }
 
 select[multiple="multiple"] {
-    width: 100%;
     background-color: var(--background-color);
     color: var(--font-color);
+    margin: 16px;
 
     option {
         padding: var(--size-05);
@@ -119,4 +146,9 @@ select[multiple="multiple"] {
     &.largest {
         height: 375px;
     }
+}
+
+.align-right {
+    display: flex;
+    justify-content: flex-end;
 }
