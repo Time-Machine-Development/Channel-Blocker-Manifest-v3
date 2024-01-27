@@ -26,3 +26,30 @@ function getElement(querySelector: string, rootElement?: Element | Document): Pr
         observer.observe(document.body, observerOptions);
     });
 }
+
+function getElementFromList(querySelectors: string[], rootElement?: Element | Document): Promise<{ element: Element; index: number }> {
+    const root = rootElement ?? document;
+
+    return new Promise((resolve) => {
+        for (let index = 0; index < querySelectors.length; index++) {
+            let searchedElement: Element | null = root.querySelector(querySelectors[index]);
+            if (searchedElement !== null) return resolve({ element: searchedElement, index });
+        }
+
+        const observerOptions = {
+            childList: true,
+            subtree: true,
+        };
+
+        const observer = new MutationObserver(() => {
+            for (let index = 0; index < querySelectors.length; index++) {
+                let searchedElement: Element | null = root.querySelector(querySelectors[index]);
+                if (searchedElement !== null) {
+                    observer.disconnect();
+                    return resolve({ element: searchedElement, index });
+                }
+            }
+        });
+        observer.observe(document.body, observerOptions);
+    });
+}

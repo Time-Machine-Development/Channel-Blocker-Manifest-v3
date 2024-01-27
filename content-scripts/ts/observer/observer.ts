@@ -1,23 +1,16 @@
 class Observer {
-    private targetSelector: string;
+    private target: string | Element;
 
-    private anchorSelector: string;
-    private videoTitle?: string;
-    private userChannelName?: string;
-    private commentContent?: string;
-    private insertBlockBtn?: (element: HTMLElement, userChannelNameElement: HTMLElement, button: HTMLButtonElement) => void;
+    private observerOptions: ObserverOptions[];
+    private subObserver: SubObserverOptions[];
 
-    private observedElements: Element[] = [];
     private activeMutationObserver: MutationObserver[] = [];
     private isBlockedValidators: Function[] = [];
 
-    constructor(targetSelector: string, observerOptions: ObserverOptions) {
-        this.targetSelector = targetSelector;
-        this.anchorSelector = observerOptions.anchorSelector;
-        this.videoTitle = observerOptions.videoTitle;
-        this.userChannelName = observerOptions.userChannelName;
-        this.commentContent = observerOptions.commentContent;
-        this.insertBlockBtn = observerOptions.insertBlockBtn;
+    constructor(targetSelector: string | Element, observerOptions: ObserverOptions[], subObserver?: SubObserverOptions[]) {
+        this.target = targetSelector;
+        this.observerOptions = observerOptions;
+        this.subObserver = subObserver ?? [];
 
         this.addObserver();
     }
@@ -37,63 +30,99 @@ class Observer {
     }
 
     private async addObserver() {
-        const contentsElement: Element = await getElement(this.targetSelector);
+        const element: Element = typeof this.target === "string" ? await getElement(this.target) : this.target;
+        console.log(`Observe: `, element);
 
-        this.observedElements = Array.from(contentsElement.querySelectorAll(this.anchorSelector));
-        for (let index = 0; index < this.observedElements.length; index++) {
-            this.addCharacterDataSelector(this.observedElements[index]);
+        for (let index = 0; index < element.children.length; index++) {
+            this.handleChild(element.children[index]);
         }
-        console.log("videoNodes: ", this.observedElements.length);
 
-        const mainMutationObserver = new MutationObserver(() => {
-            let addedElements = contentsElement.querySelectorAll(this.anchorSelector);
-            console.log("newVideoNodes: ", this.observedElements.length);
-            let added = 0;
-            for (let index = 0; index < addedElements.length; index++) {
-                const addedElement = addedElements[index];
-                if (!this.observedElements.includes(addedElement)) {
-                    this.observedElements.push(addedElement);
-                    this.addCharacterDataSelector(addedElement);
-                    added++;
+        const mainMutationObserver = new MutationObserver((mutationRecords: MutationRecord[]) => {
+            for (let index = 0; index < mutationRecords.length; index++) {
+                const mutationRecord = mutationRecords[index];
+                if (mutationRecord.type === "childList") {
+                    for (let index = 0; index < mutationRecord.addedNodes.length; index++) {
+                        this.handleChild(mutationRecord.addedNodes[index] as Element);
+                    }
                 }
             }
-            if (added >= 0) console.log("videoNodes:", this.observedElements.length, "added:", added);
+
+            /*
+            for (let index = 0; index < this.observerOptions.length; index++) {
+                const observerOption = this.observerOptions[index];
+
+                let addedElements = element.querySelectorAll(observerOption.anchorSelector);
+                console.log("newVideoNodes: ", this.observedElements.length);
+                let added = 0;
+                for (let index = 0; index < addedElements.length; index++) {
+                    const addedElement = addedElements[index];
+                    if (!this.observedElements.includes(addedElement)) {
+                        this.observedElements.push(addedElement);
+                        this.addCharacterDataSelector(addedElement, observerOption);
+                        added++;
+                    }
+                }
+                if (added >= 0) console.log("videoNodes:", this.observedElements.length, "added:", added, this.observedElements);
+            }
+            */
         });
 
-        mainMutationObserver.observe(contentsElement, { childList: true });
+        mainMutationObserver.observe(element, { childList: true });
         this.activeMutationObserver.push(mainMutationObserver);
-        console.log("Observing", contentsElement);
     }
 
-    private async addCharacterDataSelector(element: Element) {
+    private handleChild(child: Element) {
+        // Check for sub observer
+        for (let index = 0; index < this.subObserver.length; index++) {
+            const subObserver = this.subObserver[index];
+            if (child.matches(subObserver.targetSelector)) {
+                getElement(subObserver.anchorSelector, child).then((target: Element) => {
+                    activeObserver.push(new Observer(target, subObserver.observerOptions ?? this.observerOptions, subObserver.subObserver));
+                });
+            }
+        }
+
+        for (let index = 0; index < this.observerOptions.length; index++) {
+            const observerOption = this.observerOptions[index];
+            if (child.matches(observerOption.anchorSelector)) {
+                this.addCharacterDataSelector(child, observerOption);
+            }
+        }
+    }
+
+    private async addCharacterDataSelector(element: Element, observerOption: ObserverOptions) {
         let userChannelName: string | undefined;
         let videoTitle: string | undefined;
         let commentContent: string | undefined;
 
         const checkIfElementIsBlocked = async () => {
             const blocked = await isBlocked({ userChannelName, videoTitle, commentContent });
-            console.log(`blocked ${blocked}`);
 
             element.classList.toggle("blocked", blocked);
         };
         this.isBlockedValidators.push(checkIfElementIsBlocked);
 
         element.querySelectorAll("button[class='cb_block_button']").forEach((blockButton) => {
+            console.log(`remove block button`);
+
             blockButton.remove();
         });
 
-        if (this.userChannelName !== undefined) {
-            const userChannelNameElement = await getElement(this.userChannelName, element);
-
+        if (observerOption.userChannelName !== undefined) {
+            const elementAndIndex = await getElementFromList(observerOption.userChannelName, element);
+            const userChannelNameElement = elementAndIndex.element;
             let button = createBlockBtnElement("");
-            button.addEventListener("click", () => {
+            button.addEventListener("click", (mouseEvent) => {
+                mouseEvent.preventDefault();
+                mouseEvent.stopPropagation();
+
                 if (userChannelName !== undefined) {
                     blockUserChannel(userChannelName);
                 }
             });
 
-            if (this.insertBlockBtn) {
-                this.insertBlockBtn(element as HTMLElement, userChannelNameElement as HTMLElement, button);
+            if (observerOption.insertBlockBtn) {
+                observerOption.insertBlockBtn[elementAndIndex.index](element as HTMLElement, userChannelNameElement as HTMLElement, button);
             } else {
                 userChannelNameElement.insertAdjacentElement("beforebegin", button);
             }
@@ -110,9 +139,9 @@ class Observer {
             handleUserChannelName();
         }
 
-        if (this.videoTitle !== undefined) {
-            const videoTitleElement = await getElement(this.videoTitle, element);
-
+        if (observerOption.videoTitle !== undefined) {
+            const elementAndIndex = await getElementFromList(observerOption.videoTitle, element);
+            const videoTitleElement = elementAndIndex.element;
             const handleVideoTitle = () => {
                 videoTitle = videoTitleElement.textContent ?? undefined;
                 console.log("Changed Title: " + videoTitle);

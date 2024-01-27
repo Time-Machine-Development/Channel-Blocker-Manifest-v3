@@ -6,8 +6,6 @@ async function isBlocked(content: { videoTitle?: string; userChannelName?: strin
         content,
     };
     const sending = await sendMessage(message);
-    console.log(`sending ${sending}`);
-
     return sending === true;
 }
 
@@ -24,7 +22,5 @@ async function blockUserChannel(userChannelName: string) {
 }
 
 async function sendMessage(message: Message) {
-    console.log(`send ${MessageType[message.type]} message`);
-
     return chrome.runtime.sendMessage(message);
 }

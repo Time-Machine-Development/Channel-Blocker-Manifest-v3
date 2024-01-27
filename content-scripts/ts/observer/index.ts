@@ -19,6 +19,7 @@ function handleContextChange(context: YTContext) {
             break;
         case YTContext.SEARCH:
             //SearchPage(https://www.youtube.com/results?search_query=<INPUT>)
+            activeObserver = createSearchObserver();
             break;
         case YTContext.TRENDING:
             //TrendingPage(https://www.youtube.com/feed/trending)
@@ -31,13 +32,83 @@ function handleContextChange(context: YTContext) {
 
 function createHomeObserver(): Observer[] {
     return [
-        new Observer("div#contents[class='style-scope ytd-rich-grid-renderer']", {
-            anchorSelector: "ytd-rich-item-renderer[class='style-scope ytd-rich-grid-row']",
-            userChannelName:
-                "a[class='yt-simple-endpoint style-scope yt-formatted-string'], yt-formatted-string#text[class='style-scope ytd-channel-name']", // "yt-formatted-string#text[class='style-scope ytd-channel-name complex-string']"
-            videoTitle:
-                "yt-formatted-string#video-title[class='style-scope ytd-rich-grid-media'], yt-formatted-string#video-title[class='style-scope ytd-ad-inline-playback-meta-block']",
-        }),
+        new Observer(
+            "div#contents[class='style-scope ytd-rich-grid-renderer']",
+            [],
+            [
+                {
+                    targetSelector: "ytd-rich-grid-row[class='style-scope ytd-rich-grid-renderer']",
+                    anchorSelector: "div#contents[class='style-scope ytd-rich-grid-row']",
+                    observerOptions: [
+                        {
+                            anchorSelector: "ytd-rich-item-renderer[class='style-scope ytd-rich-grid-row']",
+                            userChannelName: [
+                                "a[class='yt-simple-endpoint style-scope yt-formatted-string']",
+                                "yt-formatted-string#text[class='style-scope ytd-channel-name']",
+                            ], // "yt-formatted-string#text[class='style-scope ytd-channel-name complex-string']"
+                            videoTitle: [
+                                "yt-formatted-string#video-title[class='style-scope ytd-rich-grid-media']",
+                                "yt-formatted-string#video-title[class='style-scope ytd-ad-inline-playback-meta-block']",
+                            ],
+                        },
+                    ],
+                },
+            ]
+        ),
+    ];
+}
+
+function createSearchObserver(): Observer[] {
+    return [
+        new Observer(
+            "div#contents[class='style-scope ytd-section-list-renderer']",
+            [],
+            [
+                {
+                    targetSelector: "ytd-item-section-renderer", //"ytd-shelf-renderer[class='style-scope ytd-item-section-renderer']",
+                    anchorSelector: "div#contents[class=' style-scope ytd-item-section-renderer style-scope ytd-item-section-renderer']",
+                    observerOptions: [
+                        {
+                            anchorSelector: "ytd-video-renderer[class='style-scope ytd-item-section-renderer']",
+                            userChannelName: ["yt-formatted-string#text[class='style-scope ytd-channel-name']"],
+                            videoTitle: ["yt-formatted-string[class='style-scope ytd-video-renderer']"],
+                        },
+                        {
+                            anchorSelector: "ytd-video-renderer[class='style-scope ytd-vertical-list-renderer']",
+                            userChannelName: ["yt-formatted-string#text[class='style-scope ytd-channel-name']"],
+                            videoTitle: ["yt-formatted-string[class='style-scope ytd-video-renderer']"],
+                        },
+                        {
+                            anchorSelector: "ytd-search-pyv-renderer[class='style-scope ytd-item-section-renderer']",
+                            userChannelName: ["a[class='yt-simple-endpoint style-scope yt-formatted-string']"],
+                            videoTitle: ["h3#video-title[class='style-scope ytd-promoted-video-renderer']"],
+                        },
+                        {
+                            anchorSelector: "ytd-ad-slot-renderer[class='style-scope ytd-item-section-renderer']",
+                            userChannelName: [
+                                "div#website-text[class='style-scope ytd-promoted-sparkles-web-renderer yt-simple-endpoint']",
+                            ],
+                            videoTitle: ["h3#title[class='style-scope ytd-promoted-sparkles-web-renderer yt-simple-endpoint']"],
+                        },
+                        {
+                            anchorSelector: "ytd-playlist-renderer[class='style-scope ytd-item-section-renderer']",
+                            userChannelName: ["a[class='yt-simple-endpoint style-scope yt-formatted-string']"],
+                            videoTitle: ["span#video-title[class='style-scope ytd-playlist-renderer']"],
+                        },
+                        {
+                            anchorSelector: "ytd-channel-renderer[class='style-scope ytd-item-section-renderer']",
+                            userChannelName: ["yt-formatted-string#text[class='style-scope ytd-channel-name']"],
+                        },
+                    ],
+                    subObserver: [
+                        {
+                            targetSelector: "ytd-shelf-renderer[class='style-scope ytd-item-section-renderer']",
+                            anchorSelector: "div#items[class='style-scope ytd-vertical-list-renderer']",
+                        },
+                    ],
+                },
+            ]
+        ),
     ];
 }
 
