@@ -23,11 +23,34 @@ function handleContextChange(context: YTContext) {
             break;
         case YTContext.TRENDING:
             //TrendingPage(https://www.youtube.com/feed/trending)
+            activeObserver = createTrendingObserver();
             break;
 
         default:
             break;
     }
+}
+
+function createTrendingObserver() {
+    return [
+        new Observer(
+            "div#contents[class='style-scope ytd-section-list-renderer']",
+            [],
+            [
+                {
+                    targetSelector: "ytd-item-section-renderer",
+                    anchorSelector: "div#grid-container",
+                    observerOptions: [
+                        {
+                            anchorSelector: "ytd-video-renderer",
+                            userChannelName: ["a[class='yt-simple-endpoint style-scope yt-formatted-string']"],
+                            videoTitle: ["yt-formatted-string[class='style-scope ytd-video-renderer']"],
+                        },
+                    ],
+                },
+            ]
+        ),
+    ];
 }
 
 function createHomeObserver(): Observer[] {
