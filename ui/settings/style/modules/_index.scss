@@ -110,6 +110,14 @@ select[multiple="multiple"] {
     option {
         padding: var(--size-05);
 
+        &.case-insensitive {
+            &::after {
+                content: " (case-insensitive)";
+                color: var(--primary-color);
+                font-style: italic;
+            }
+        }
+
         &:checked {
             background-color: var(--primary-color);
             color: var(--on-primary-color);

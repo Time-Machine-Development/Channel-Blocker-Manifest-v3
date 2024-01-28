@@ -1,6 +1,7 @@
 #main-container {
     display: flex;
     flex-direction: row;
+    align-items: start;
 }
 
 .section {
@@ -12,7 +13,7 @@
     flex-shrink: 1;
 
     width: 100%;
-    padding: 2rem;
+    padding: 0 32px 32px 32px;
 
     h2 {
         width: 100%;
@@ -92,5 +93,9 @@
         &::-webkit-slider-thumb {
             background: var(--primary-color);
         }
+    }
+
+    &.space-top {
+        margin-top: 16px;
     }
 }

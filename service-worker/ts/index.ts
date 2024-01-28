@@ -85,15 +85,15 @@ function handleAddBlockingRuleMessage(message: AddBlockingRuleMessage) {
         chrome.storage.local.set({ blockedChannels: Array.from(blockedChannelsSet) });
     }
     if (message.content.blockingChannelRegExp !== undefined) {
-        blockedChannelsRegExp[message.content.blockingChannelRegExp] = "";
+        blockedChannelsRegExp[message.content.blockingChannelRegExp] = message.content.caseInsensitive ? "i" : "";
         chrome.storage.local.set({ blockedChannelsRegExp });
     }
     if (message.content.blockingCommentRegExp !== undefined) {
-        blockedComments[message.content.blockingCommentRegExp] = "";
+        blockedComments[message.content.blockingCommentRegExp] = message.content.caseInsensitive ? "i" : "";
         chrome.storage.local.set({ blockedComments });
     }
     if (message.content.blockingVideoTitleRegExp !== undefined) {
-        blockedVideoTitles[message.content.blockingVideoTitleRegExp] = "";
+        blockedVideoTitles[message.content.blockingVideoTitleRegExp] = message.content.caseInsensitive ? "i" : "";
         chrome.storage.local.set({ blockedVideoTitles });
     }
     if (message.content.excludedChannel !== undefined) {

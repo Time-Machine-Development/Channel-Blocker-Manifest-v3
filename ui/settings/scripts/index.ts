@@ -9,7 +9,8 @@ const blockedChannelsSelect: HTMLSelectElement = document.getElementById("blocke
 const blockedChannelsInput: HTMLInputElement = document.getElementById("blocked-channels-input") as HTMLInputElement;
 const blockedChannelsAddBtn: HTMLButtonElement = document.getElementById("blocked-channels-add-btn") as HTMLButtonElement;
 const blockedChannelsRemoveBtn: HTMLButtonElement = document.getElementById("blocked-channels-remove-btn") as HTMLButtonElement;
-
+const caseInsensitiveRow = document.getElementById("case-insensitive-row") as HTMLDivElement;
+const caseInsensitiveCheckbox = document.getElementById("case-insensitive-checkbox") as HTMLInputElement;
 const nav = document.getElementById("main-nav") as HTMLElement;
 
 const headingElement: HTMLHeadingElement = document.getElementById("heading") as HTMLHeadingElement;
@@ -125,25 +126,39 @@ function updateRulesUI() {
     switch (settingsState) {
         case SettingsState.BLOCKED_CHANNELS:
             blockedChannelsNav.classList.add("active");
+            caseInsensitiveRow.style.display = "none";
             headingElement.innerText = "Blocked Users/Channels";
-            blockedChannelsSet.forEach(insertOption);
+            blockedChannelsSet.forEach((channelName) => {
+                insertOption(channelName);
+            });
             break;
         case SettingsState.BLOCKED_TITLES:
             blockedTitlesNav.classList.add("active");
+            caseInsensitiveRow.style.display = "";
             headingElement.innerText = "Blocked Video Titles by Regular Expressions";
+            for (const key in blockedVideoTitles) {
+                if (Object.prototype.hasOwnProperty.call(blockedVideoTitles, key)) {
+                    insertOption(key, blockedVideoTitles[key] !== "");
+                }
+            }
             break;
         case SettingsState.BLOCKED_NAMES:
             blockedNamesNav.classList.add("active");
+            caseInsensitiveRow.style.display = "";
             headingElement.innerText = "Blocked User/Channel Names by Regular Expressions";
             break;
         case SettingsState.BLOCKED_COMMENTS:
             blockedCommentsNav.classList.add("active");
+            caseInsensitiveRow.style.display = "";
             headingElement.innerText = "Blocked Comments by Regular Expressions";
             break;
         case SettingsState.EXCLUDED_CHANNELS:
             excludedChannelsNav.classList.add("active");
+            caseInsensitiveRow.style.display = "none";
             headingElement.innerText = "Excluded Users/Channels from Regular Expressions";
-            excludedChannels.forEach(insertOption);
+            excludedChannels.forEach((channelName) => {
+                insertOption(channelName);
+            });
             break;
     }
 
@@ -151,54 +166,65 @@ function updateRulesUI() {
     blockedChannelsSelect.classList.toggle("largest", blockedChannelsSelect.childElementCount > 8);
 }
 
-function insertOption(value: string) {
+function insertOption(value: string, isCaseInsensitive: boolean = false) {
     let option = document.createElement("option");
     option.value = value;
     option.innerText = value;
+    option.classList.toggle("case-insensitive", isCaseInsensitive);
     blockedChannelsSelect.insertAdjacentElement("afterbegin", option);
 }
 
-(function initUI() {
-    console.log("init");
+function addNewRule() {
+    const rule = blockedChannelsInput.value;
+    if (rule.trim().length === 0) return;
 
+    const message: AddBlockingRuleMessage = {
+        sender: CommunicationRole.SETTINGS,
+        receiver: CommunicationRole.SERVICE_WORKER,
+        type: MessageType.ADD_BLOCKING_RULE,
+        content: {
+            blockedChannel: settingsState === SettingsState.BLOCKED_CHANNELS ? rule : undefined,
+            blockingVideoTitleRegExp: settingsState === SettingsState.BLOCKED_TITLES ? rule : undefined,
+            blockingChannelRegExp: settingsState === SettingsState.BLOCKED_NAMES ? rule : undefined,
+            blockingCommentRegExp: settingsState === SettingsState.BLOCKED_COMMENTS ? rule : undefined,
+            excludedChannel: settingsState === SettingsState.EXCLUDED_CHANNELS ? rule : undefined,
+            caseInsensitive: caseInsensitiveCheckbox.checked,
+        },
+    };
+    chrome.runtime.sendMessage(message);
+    blockedChannelsInput.value = "";
+}
+function removeRule() {
+    let selectedOptions = [];
+    for (let index = 0; index < blockedChannelsSelect.options.length; index++) {
+        const option = blockedChannelsSelect.options[index];
+        if (option.selected) selectedOptions.push(option.value);
+    }
+    const message: RemoveBlockingRuleMessage = {
+        sender: CommunicationRole.SETTINGS,
+        receiver: CommunicationRole.SERVICE_WORKER,
+        type: MessageType.REMOVE_BLOCKING_RULE,
+        content: {
+            blockedChannel: settingsState === SettingsState.BLOCKED_CHANNELS ? selectedOptions : undefined,
+            blockingVideoTitleRegExp: settingsState === SettingsState.BLOCKED_TITLES ? selectedOptions : undefined,
+            blockingChannelRegExp: settingsState === SettingsState.BLOCKED_NAMES ? selectedOptions : undefined,
+            blockingCommentRegExp: settingsState === SettingsState.BLOCKED_COMMENTS ? selectedOptions : undefined,
+            excludedChannel: settingsState === SettingsState.EXCLUDED_CHANNELS ? selectedOptions : undefined,
+        },
+    };
+    chrome.runtime.sendMessage(message);
+}
+
+(function initUI() {
     initFaq();
     initNavigation();
 
-    const addBlocked = () => {
-        const blockedChannel = blockedChannelsInput.value;
-        if (blockedChannel.trim().length === 0) return;
-
-        const message: AddBlockingRuleMessage = {
-            sender: CommunicationRole.SETTINGS,
-            receiver: CommunicationRole.SERVICE_WORKER,
-            type: MessageType.ADD_BLOCKING_RULE,
-            content: {
-                blockedChannel,
-            },
-        };
-        chrome.runtime.sendMessage(message);
-        blockedChannelsInput.value = "";
-    };
-    blockedChannelsAddBtn.addEventListener("click", addBlocked);
+    blockedChannelsAddBtn.addEventListener("click", addNewRule);
     blockedChannelsInput.addEventListener("keydown", (event) => {
-        if (event.key == "Enter") addBlocked();
+        if (event.key == "Enter") addNewRule();
     });
-    blockedChannelsRemoveBtn.addEventListener("click", () => {
-        let selectedOptions = [];
-        for (let index = 0; index < blockedChannelsSelect.options.length; index++) {
-            const option = blockedChannelsSelect.options[index];
-            if (option.selected) selectedOptions.push(option.value);
-        }
-        const message: RemoveBlockingRuleMessage = {
-            sender: CommunicationRole.SETTINGS,
-            receiver: CommunicationRole.SERVICE_WORKER,
-            type: MessageType.REMOVE_BLOCKING_RULE,
-            content: {
-                blockedChannel: selectedOptions,
-            },
-        };
-        chrome.runtime.sendMessage(message);
-    });
+
+    blockedChannelsRemoveBtn.addEventListener("click", removeRule);
 
     blockedChannelsNav.addEventListener("click", () => {
         settingsState = SettingsState.BLOCKED_CHANNELS;

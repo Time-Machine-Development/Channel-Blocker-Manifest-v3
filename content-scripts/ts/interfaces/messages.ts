@@ -12,6 +12,7 @@ interface AddBlockingRuleMessage extends Message {
         blockingChannelRegExp?: string;
         blockingCommentRegExp?: string;
         blockingVideoTitleRegExp?: string;
+        caseInsensitive?: boolean;
     };
 }
 
