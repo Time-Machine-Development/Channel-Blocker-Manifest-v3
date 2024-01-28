@@ -43,7 +43,10 @@
                 </div>
                 <div id="case-insensitive-row" class="settings-row space-top">
                     <label for="case-insensitive-checkbox">case-insensitive</label>
-                    <input type="checkbox" name="case-insensitive-checkbox" id="case-insensitive-checkbox">
+                    <label class="switch">
+                        <input value="true" type="checkbox" id="case-insensitive-checkbox">
+                        <span class="slider round"></span>
+                    </label>
                 </div>
                 <select name="blocked-channels" id="blocked-channels" multiple="multiple">
                     <option value="test">test</option>
@@ -78,14 +81,20 @@
                 <hr>
                 <div class="settings-row">
                     <label for="popup-checkbox">Open quick popup when pressing toolbar-button</label>
-                    <input type="checkbox" name="popup-checkbox" id="popup-checkbox">
+                    <label class="switch">
+                        <input value="true" type="checkbox" id="popup-checkbox">
+                        <span class="slider round"></span>
+                    </label>
                 </div>
             </div>
             <h2>Visibility</h2>
             <div id="visibility-card" class="card">
                 <div class="settings-row">
                     <label for="show-btn-checkbox">Show block-buttons</label>
-                    <input type="checkbox" name="show-btn-checkbox" id="show-btn-checkbox">
+                    <label class="switch">
+                        <input value="true" type="checkbox" id="show-btn-checkbox">
+                        <span class="slider round"></span>
+                    </label>
                 </div>
                 <hr>
                 <div class="settings-row">
