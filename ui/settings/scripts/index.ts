@@ -1,6 +1,7 @@
 import { CommunicationRole, MessageType, SettingsState } from "./enums.js";
 import { AddBlockingRuleMessage, KeyValueMap, Message, RemoveBlockingRuleMessage, StorageObject } from "./interfaces.js";
 import { initFaq } from "./faq.js";
+import { initNavigation } from "./navigation.js";
 
 console.log("Settings scripts");
 
@@ -8,6 +9,8 @@ const blockedChannelsSelect: HTMLSelectElement = document.getElementById("blocke
 const blockedChannelsInput: HTMLInputElement = document.getElementById("blocked-channels-input") as HTMLInputElement;
 const blockedChannelsAddBtn: HTMLButtonElement = document.getElementById("blocked-channels-add-btn") as HTMLButtonElement;
 const blockedChannelsRemoveBtn: HTMLButtonElement = document.getElementById("blocked-channels-remove-btn") as HTMLButtonElement;
+
+const nav = document.getElementById("main-nav") as HTMLElement;
 
 const headingElement: HTMLHeadingElement = document.getElementById("heading") as HTMLHeadingElement;
 const rulesSection: HTMLDivElement = document.getElementById("rules-section") as HTMLDivElement;
@@ -80,6 +83,7 @@ function loadDataFromStorage() {
 }
 
 function updateUI() {
+    nav.classList.remove("open");
     const showRulesSection =
         settingsState === SettingsState.BLOCKED_CHANNELS ||
         settingsState === SettingsState.BLOCKED_TITLES ||
@@ -155,7 +159,10 @@ function insertOption(value: string) {
 }
 
 (function initUI() {
+    console.log("init");
+
     initFaq();
+    initNavigation();
 
     const addBlocked = () => {
         const blockedChannel = blockedChannelsInput.value;
@@ -192,6 +199,7 @@ function insertOption(value: string) {
         };
         chrome.runtime.sendMessage(message);
     });
+
     blockedChannelsNav.addEventListener("click", () => {
         settingsState = SettingsState.BLOCKED_CHANNELS;
         updateUI();
