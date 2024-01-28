@@ -146,11 +146,21 @@ function updateRulesUI() {
             blockedNamesNav.classList.add("active");
             caseInsensitiveRow.style.display = "";
             headingElement.innerText = "Blocked User/Channel Names by Regular Expressions";
+            for (const key in blockedChannelsRegExp) {
+                if (Object.prototype.hasOwnProperty.call(blockedChannelsRegExp, key)) {
+                    insertOption(key, blockedChannelsRegExp[key] !== "");
+                }
+            }
             break;
         case SettingsState.BLOCKED_COMMENTS:
             blockedCommentsNav.classList.add("active");
             caseInsensitiveRow.style.display = "";
             headingElement.innerText = "Blocked Comments by Regular Expressions";
+            for (const key in blockedComments) {
+                if (Object.prototype.hasOwnProperty.call(blockedComments, key)) {
+                    insertOption(key, blockedComments[key] !== "");
+                }
+            }
             break;
         case SettingsState.EXCLUDED_CHANNELS:
             excludedChannelsNav.classList.add("active");

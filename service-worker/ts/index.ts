@@ -57,8 +57,6 @@ function loadDataFromStorage() {
 chrome.runtime.onMessage.addListener((message: Message, sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) => {
     if (message.receiver !== CommunicationRole.SERVICE_WORKER) return;
 
-    console.log(`new ${MessageType[message.type]} message`);
-
     switch (message.type) {
         case MessageType.ADD_BLOCKING_RULE:
             handleAddBlockingRuleMessage(message);
@@ -147,9 +145,26 @@ function handleIsBlockedMessage(message: IsBlockedMessage) {
     if (message.content.userChannelName !== undefined) {
         if (excludedChannels.has(message.content.userChannelName)) return false;
         if (blockedChannelsSet.has(message.content.userChannelName)) return true;
-        for (const regEgx in blockedChannelsRegExp) {
-            if (Object.prototype.hasOwnProperty.call(blockedChannelsRegExp, regEgx)) {
-                if (message.content.userChannelName.match(regEgx)) return true;
+        for (const key in blockedChannelsRegExp) {
+            if (Object.prototype.hasOwnProperty.call(blockedChannelsRegExp, key)) {
+                const regEgx = new RegExp(key, blockedChannelsRegExp[key]);
+                if (regEgx.test(message.content.userChannelName)) return true;
+            }
+        }
+    }
+    if (message.content.videoTitle !== undefined) {
+        for (const key in blockedVideoTitles) {
+            if (Object.prototype.hasOwnProperty.call(blockedVideoTitles, key)) {
+                const regEgx = new RegExp(key, blockedVideoTitles[key]);
+                if (regEgx.test(message.content.videoTitle)) return true;
+            }
+        }
+    }
+    if (message.content.commentContent !== undefined) {
+        for (const key in blockedComments) {
+            if (Object.prototype.hasOwnProperty.call(blockedComments, key)) {
+                const regEgx = new RegExp(key, blockedComments[key]);
+                if (regEgx.test(message.content.commentContent)) return true;
             }
         }
     }
