@@ -4,7 +4,7 @@ initBlockBtnCSS();
 
 function loadContext() {
     const context = getYTContext();
-    console.log(YTContext[context]);
+    console.log("YTContext", YTContext[context]);
     handleContextChange(context);
 }
 

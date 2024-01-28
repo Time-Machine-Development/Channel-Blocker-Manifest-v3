@@ -16,6 +16,7 @@ function handleContextChange(context: YTContext) {
             break;
         case YTContext.VIDEO:
             //VideoPage(https://www.youtube.com/watch?v=<ID>)
+            activeObserver = createVideoObserver();
             break;
         case YTContext.SEARCH:
             //SearchPage(https://www.youtube.com/results?search_query=<INPUT>)
@@ -31,20 +32,99 @@ function handleContextChange(context: YTContext) {
     }
 }
 
+function createVideoObserver() {
+    return [
+        new Observer("div#items[class='style-scope ytd-watch-next-secondary-results-renderer']", [
+            {
+                anchorSelector: "ytd-compact-video-renderer",
+                userChannelName: ["yt-formatted-string#text[class='style-scope ytd-channel-name']"],
+                videoTitle: ["span#video-title[class=' style-scope ytd-compact-video-renderer style-scope ytd-compact-video-renderer']"],
+                insertBlockBtn: [
+                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                        element.querySelector("ytd-channel-name")?.insertAdjacentElement("beforebegin", button);
+                    },
+                ],
+            },
+        ]),
+        new Observer(
+            "div#primary ytd-comments#comments div#contents[class=' style-scope ytd-item-section-renderer style-scope ytd-item-section-renderer']",
+            [
+                {
+                    anchorSelector: "ytd-comment-thread-renderer",
+                    userChannelName: [
+                        "yt-formatted-string[class=' style-scope ytd-comment-renderer style-scope ytd-comment-renderer']",
+                        "yt-formatted-string#text[class='style-scope ytd-channel-name']",
+                    ],
+                    commentContent: ["yt-formatted-string#content-text"],
+                    insertBlockBtn: [
+                        (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                            element.querySelector("div#header-author")?.insertAdjacentElement("afterbegin", button);
+                        },
+                        (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                            element.querySelector("span#author-comment-badge")?.insertAdjacentElement("beforebegin", button);
+                        },
+                    ],
+                    removeAtSign: [true, true],
+                    embeddedObserver: "div#contents",
+                },
+                {
+                    anchorSelector: "ytd-comment-renderer",
+                    userChannelName: [
+                        "yt-formatted-string[class=' style-scope ytd-comment-renderer style-scope ytd-comment-renderer']",
+                        "yt-formatted-string#text[class='style-scope ytd-channel-name']",
+                    ],
+                    commentContent: ["yt-formatted-string#content-text"],
+                    insertBlockBtn: [
+                        (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                            element.querySelector("div#header-author")?.insertAdjacentElement("afterbegin", button);
+                        },
+                        (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                            element.querySelector("span#author-comment-badge")?.insertAdjacentElement("beforebegin", button);
+                        },
+                    ],
+                    removeAtSign: [true, true],
+                },
+            ]
+        ),
+    ];
+    return [
+        new Observer("div#primary div#contents[class=' style-scope ytd-item-section-renderer style-scope ytd-item-section-renderer']", [
+            {
+                anchorSelector: "ytd-comment-thread-renderer",
+                userChannelName: ["yt-formatted-string[class=' style-scope ytd-comment-renderer style-scope ytd-comment-renderer']"],
+                commentContent: ["yt-formatted-string#content-text"],
+                insertBlockBtn: [
+                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                        element.querySelector("div#header-author")?.insertAdjacentElement("afterbegin", button);
+                    },
+                ],
+                removeAtSign: [true],
+                embeddedObserver: "div#contents",
+            },
+        ]),
+    ];
+}
+
 function createTrendingObserver() {
     return [
         new Observer(
-            "div#contents[class='style-scope ytd-section-list-renderer']",
+            "ytd-page-manager#page-manager",
             [],
             [
                 {
-                    targetSelector: "ytd-item-section-renderer",
-                    anchorSelector: "div#grid-container",
-                    observerOptions: [
+                    targetSelector: "ytd-browse",
+                    anchorSelector: "div#contents[class='style-scope ytd-section-list-renderer']",
+                    subObserver: [
                         {
-                            anchorSelector: "ytd-video-renderer",
-                            userChannelName: ["a[class='yt-simple-endpoint style-scope yt-formatted-string']"],
-                            videoTitle: ["yt-formatted-string[class='style-scope ytd-video-renderer']"],
+                            targetSelector: "ytd-item-section-renderer",
+                            anchorSelector: "div#grid-container",
+                            observerOptions: [
+                                {
+                                    anchorSelector: "ytd-video-renderer",
+                                    userChannelName: ["a[class='yt-simple-endpoint style-scope yt-formatted-string']"],
+                                    videoTitle: ["yt-formatted-string[class='style-scope ytd-video-renderer']"],
+                                },
+                            ],
                         },
                     ],
                 },
@@ -68,7 +148,7 @@ function createHomeObserver(): Observer[] {
                             userChannelName: [
                                 "a[class='yt-simple-endpoint style-scope yt-formatted-string']",
                                 "yt-formatted-string#text[class='style-scope ytd-channel-name']",
-                            ], // "yt-formatted-string#text[class='style-scope ytd-channel-name complex-string']"
+                            ],
                             videoTitle: [
                                 "yt-formatted-string#video-title[class='style-scope ytd-rich-grid-media']",
                                 "yt-formatted-string#video-title[class='style-scope ytd-ad-inline-playback-meta-block']",

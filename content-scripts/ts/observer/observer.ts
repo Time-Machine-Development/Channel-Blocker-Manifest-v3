@@ -129,7 +129,9 @@ class Observer {
 
             const handleUserChannelName = () => {
                 userChannelName = userChannelNameElement.textContent ?? undefined;
-                console.log("Changed Channel: " + userChannelName);
+                if (observerOption.removeAtSign !== undefined && observerOption.removeAtSign[elementAndIndex.index]) {
+                    userChannelName = userChannelName?.substring(1);
+                }
                 button.setAttribute("title", "Block '" + userChannelName + "' (Channel Blocker)");
                 checkIfElementIsBlocked();
             };
@@ -144,13 +146,34 @@ class Observer {
             const videoTitleElement = elementAndIndex.element;
             const handleVideoTitle = () => {
                 videoTitle = videoTitleElement.textContent ?? undefined;
-                console.log("Changed Title: " + videoTitle);
                 checkIfElementIsBlocked();
             };
             const mutationObserver = new MutationObserver(handleVideoTitle);
             mutationObserver.observe(videoTitleElement, { childList: true, subtree: true, characterData: true });
             this.activeMutationObserver.push(mutationObserver);
             handleVideoTitle();
+        }
+
+        if (observerOption.commentContent !== undefined) {
+            const elementAndIndex = await getElementFromList(observerOption.commentContent, element);
+            const commentContentElement = elementAndIndex.element;
+            const handleCommentContent = () => {
+                commentContent = commentContentElement.textContent ?? undefined;
+                checkIfElementIsBlocked();
+            };
+            const mutationObserver = new MutationObserver(handleCommentContent);
+            mutationObserver.observe(commentContentElement, { childList: true, subtree: true, characterData: true });
+            this.activeMutationObserver.push(mutationObserver);
+            handleCommentContent();
+        }
+
+        if (observerOption.embeddedObserver !== undefined) {
+            const target = element.querySelector(observerOption.embeddedObserver);
+            console.log("embeddedObserver", target);
+
+            if (target !== null) {
+                activeObserver.push(new Observer(target, this.observerOptions, this.subObserver));
+            }
         }
     }
 }
