@@ -85,7 +85,7 @@ button {
     }
 
     &.outlined {
-        background-color: var(--surface-color);
+        background: none;
         border: 2px solid var(--primary-highlight-color);
         color: var(--primary-highlight-color);
 
@@ -159,4 +159,12 @@ select[multiple="multiple"] {
 .align-right {
     display: flex;
     justify-content: flex-end;
+}
+
+.card-like {
+    width: 100%;
+    min-width: 550px;
+    max-width: 680px;
+
+    margin: 8px;
 }

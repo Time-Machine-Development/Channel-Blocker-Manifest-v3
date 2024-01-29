@@ -68,3 +68,5 @@ export interface SettingsStorageObject {
         animationSpeed: number;
     };
 }
+
+export interface CombinedStorageObject extends SettingsStorageObject, StorageObject {}

@@ -31,8 +31,27 @@ body {
     --primary-highlight-color: #005ea7;
 }
 
+body.dark-scheme {
+    --background-color: #202124;
+    --surface-color: #292a2d;
+    --input-color: #282828;
+
+    --font-color: #e3e3e3;
+
+    --primary-color: #005ea7;
+    --on-primary-color: #e3e3e3;
+
+    --hr-color: #3f4042;
+
+    --border-color: #757575;
+    --border-color-active: #acc6f9;
+
+    --highlight-color: #38393b;
+    --primary-highlight-color: #0078d4;
+}
+
 @media (prefers-color-scheme: dark) {
-    body {
+    body.detect-scheme {
         --background-color: #202124;
         --surface-color: #292a2d;
         --input-color: #282828;

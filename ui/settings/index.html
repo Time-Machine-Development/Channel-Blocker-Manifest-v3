@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./style/main.css">
 </head>
 
-<body>
+<body class="detect-scheme">
     <header>
         <img id="icon" class="icon" src="/images/CB_icon.svg" alt="CB_icon">
         <button id="burger-menu">
@@ -38,7 +38,7 @@
             <h2 id="heading">Blocked users/channels</h2>
             <div id="rules-card" class="card">
                 <div class="textfield">
-                    <input type="text" id="blocked-channels-input">
+                    <input type="text" placeholder="user/channel name" id="blocked-channels-input">
                     <button id="blocked-channels-add-btn">add</button>
                 </div>
                 <div id="case-insensitive-row" class="settings-row space-top">
@@ -63,9 +63,9 @@
                 <div class="settings-row">
                     <label for="mode-dropdown">Configuration page design</label>
                     <select name="mode-dropdown" id="mode-dropdown">
-                        <option value="Device">Device</option>
-                        <option value="Dark">Dark</option>
-                        <option value="Light">Light</option>
+                        <option value="0">Device</option>
+                        <option value="1">Dark</option>
+                        <option value="2">Light</option>
                     </select>
                 </div>
                 <hr>
@@ -76,7 +76,7 @@
                 <hr>
                 <div class="settings-row">
                     <label for="btn-size-slider">Size of block-buttons</label>
-                    <input type="range" name="btn-size-slider" id="btn-size-slider">
+                    <input type="range" name="btn-size-slider" id="btn-size-slider" min="100" max="200">
                 </div>
                 <hr>
                 <div class="settings-row">
@@ -99,8 +99,11 @@
                 <hr>
                 <div class="settings-row">
                     <label for="animation-speed-slider">Speed of block-animation</label>
-                    <input type="range" name="animation-speed-slider" id="animation-speed-slider">
+                    <input type="range" name="animation-speed-slider" id="animation-speed-slider" min="0" max="2000">
                 </div>
+            </div>
+            <div class="align-right card-like">
+                <button id="reset-appearance-btn" class="outlined">reset</button>
             </div>
         </div>
         <div id="import-export-section" class="section">

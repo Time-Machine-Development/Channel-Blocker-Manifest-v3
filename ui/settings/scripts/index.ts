@@ -1,7 +1,15 @@
-import { CommunicationRole, MessageType, SettingsState } from "./enums.js";
-import { AddBlockingRuleMessage, KeyValueMap, Message, RemoveBlockingRuleMessage, StorageObject } from "./interfaces.js";
+import { CommunicationRole, MessageType, SettingsDesign, SettingsState } from "./enums.js";
+import {
+    AddBlockingRuleMessage,
+    CombinedStorageObject,
+    KeyValueMap,
+    Message,
+    RemoveBlockingRuleMessage,
+    StorageObject,
+} from "./interfaces.js";
 import { initFaq } from "./faq.js";
 import { initNavigation } from "./navigation.js";
+import { initAppearanceUI } from "./settings.js";
 
 console.log("Settings scripts");
 
@@ -128,6 +136,7 @@ function updateRulesUI() {
             blockedChannelsNav.classList.add("active");
             caseInsensitiveRow.style.display = "none";
             headingElement.innerText = "Blocked Users/Channels";
+            blockedChannelsInput.placeholder = "User/Channel Name";
             blockedChannelsSet.forEach((channelName) => {
                 insertOption(channelName);
             });
@@ -136,6 +145,7 @@ function updateRulesUI() {
             blockedTitlesNav.classList.add("active");
             caseInsensitiveRow.style.display = "";
             headingElement.innerText = "Blocked Video Titles by Regular Expressions";
+            blockedChannelsInput.placeholder = "Video Title Regular Expression";
             for (const key in blockedVideoTitles) {
                 if (Object.prototype.hasOwnProperty.call(blockedVideoTitles, key)) {
                     insertOption(key, blockedVideoTitles[key] !== "");
@@ -146,6 +156,7 @@ function updateRulesUI() {
             blockedNamesNav.classList.add("active");
             caseInsensitiveRow.style.display = "";
             headingElement.innerText = "Blocked User/Channel Names by Regular Expressions";
+            blockedChannelsInput.placeholder = "User/Channel Name Regular Expression";
             for (const key in blockedChannelsRegExp) {
                 if (Object.prototype.hasOwnProperty.call(blockedChannelsRegExp, key)) {
                     insertOption(key, blockedChannelsRegExp[key] !== "");
@@ -156,6 +167,7 @@ function updateRulesUI() {
             blockedCommentsNav.classList.add("active");
             caseInsensitiveRow.style.display = "";
             headingElement.innerText = "Blocked Comments by Regular Expressions";
+            blockedChannelsInput.placeholder = "Comment Regular Expression";
             for (const key in blockedComments) {
                 if (Object.prototype.hasOwnProperty.call(blockedComments, key)) {
                     insertOption(key, blockedComments[key] !== "");
@@ -166,6 +178,7 @@ function updateRulesUI() {
             excludedChannelsNav.classList.add("active");
             caseInsensitiveRow.style.display = "none";
             headingElement.innerText = "Excluded Users/Channels from Regular Expressions";
+            blockedChannelsInput.placeholder = "User/Channel Name";
             excludedChannels.forEach((channelName) => {
                 insertOption(channelName);
             });
@@ -228,6 +241,7 @@ function removeRule() {
 (function initUI() {
     initFaq();
     initNavigation();
+    initAppearanceUI();
 
     blockedChannelsAddBtn.addEventListener("click", addNewRule);
     blockedChannelsInput.addEventListener("keydown", (event) => {
