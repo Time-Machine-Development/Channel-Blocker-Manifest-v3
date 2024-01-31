@@ -202,12 +202,23 @@ function createSearchObserver(): Observer[] {
                             anchorSelector: "ytd-channel-renderer[class='style-scope ytd-item-section-renderer']",
                             userChannelName: ["yt-formatted-string#text[class='style-scope ytd-channel-name']"],
                         },
+                        {
+                            anchorSelector: "ytd-grid-video-renderer",
+                            userChannelName: ["a[class='yt-simple-endpoint style-scope yt-formatted-string']"],
+                            videoTitle: ["a#video-title"],
+                        },
                     ],
                     subObserver: [
                         {
                             targetSelector: "ytd-shelf-renderer[class='style-scope ytd-item-section-renderer']",
-                            anchorSelector: "div#items[class='style-scope ytd-vertical-list-renderer']",
+                            anchorSelector: "div#items",
                         },
+                        /*
+                        {
+                            targetSelector: "ytd-shelf-renderer[class='style-scope ytd-item-section-renderer']",
+                            anchorSelector: "div#items[class='style-scope yt-horizontal-list-renderer']",
+                        },
+                        */
                     ],
                 },
             ]

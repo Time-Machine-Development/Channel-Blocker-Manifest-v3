@@ -77,8 +77,9 @@ function updateBlockBtnCSS() {
 	`);
 
     style.sheet.insertRule(`
+        #items.blocked,
 		.blocked {
-			display: none;
+			display: none !important;
 		}
 	`);
 }
