@@ -46,25 +46,6 @@ class Observer {
                     }
                 }
             }
-
-            /*
-            for (let index = 0; index < this.observerOptions.length; index++) {
-                const observerOption = this.observerOptions[index];
-
-                let addedElements = element.querySelectorAll(observerOption.anchorSelector);
-                console.log("newVideoNodes: ", this.observedElements.length);
-                let added = 0;
-                for (let index = 0; index < addedElements.length; index++) {
-                    const addedElement = addedElements[index];
-                    if (!this.observedElements.includes(addedElement)) {
-                        this.observedElements.push(addedElement);
-                        this.addCharacterDataSelector(addedElement, observerOption);
-                        added++;
-                    }
-                }
-                if (added >= 0) console.log("videoNodes:", this.observedElements.length, "added:", added, this.observedElements);
-            }
-            */
         });
 
         mainMutationObserver.observe(element, { childList: true });

@@ -5,6 +5,8 @@ import {
     KeyValueMap,
     Message,
     RemoveBlockingRuleMessage,
+    RequestSettingsMessage,
+    SettingsChangedMessage,
     StorageChangedMessage,
     StorageObject,
 } from "./interfaces.js";
@@ -20,6 +22,13 @@ let defaultStorage: StorageObject = {
     blockedComments: {},
     blockedVideoTitles: {},
     excludedChannels: [],
+};
+
+let settings = {
+    buttonVisible: true,
+    buttonColor: "#717171",
+    buttonSize: 142,
+    animationSpeed: 200,
 };
 
 let blockedChannelsSet = new Set<string>();
@@ -52,6 +61,13 @@ function loadDataFromStorage() {
             blockedVideoTitles = storageObject.blockedVideoTitles;
         }
     });
+
+    chrome.storage.local.get(settings).then((result) => {
+        settings.buttonVisible = result.buttonVisible;
+        settings.buttonColor = result.buttonColor;
+        settings.buttonSize = result.buttonSize;
+        settings.animationSpeed = result.animationSpeed;
+    });
 }
 
 chrome.runtime.onMessage.addListener((message: Message, sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) => {
@@ -67,11 +83,26 @@ chrome.runtime.onMessage.addListener((message: Message, sender: chrome.runtime.M
         case MessageType.IS_BLOCKED:
             sendResponse(handleIsBlockedMessage(message));
             break;
+        case MessageType.SETTINGS_CHANGED:
+            sendSettingsChangedMessage(message);
+            break;
+        case MessageType.REQUEST_SETTINGS:
+            sendResponse(handleRequestSettings(message));
+            break;
 
         default:
             break;
     }
 });
+
+function handleRequestSettings(message: RequestSettingsMessage): {
+    buttonVisible: boolean;
+    buttonColor: string;
+    buttonSize: number;
+    animationSpeed: number;
+} {
+    return settings;
+}
 
 function handleAddBlockingRuleMessage(message: AddBlockingRuleMessage) {
     if (blockedChannelsSet.size === 0) {
@@ -141,7 +172,7 @@ function handleRemoveBlockingRuleMessage(message: RemoveBlockingRuleMessage) {
     sendStorageChangedMessage();
 }
 
-function handleIsBlockedMessage(message: IsBlockedMessage) {
+function handleIsBlockedMessage(message: IsBlockedMessage): boolean {
     if (message.content.userChannelName !== undefined) {
         if (excludedChannels.has(message.content.userChannelName)) return false;
         if (blockedChannelsSet.has(message.content.userChannelName)) return true;
@@ -196,6 +227,18 @@ async function sendStorageChangedMessage() {
         };
         chrome.tabs.sendMessage(configTabId, storageChangedMessageForSettings);
     }
+}
+
+async function sendSettingsChangedMessage(message: SettingsChangedMessage) {
+    message.receiver = CommunicationRole.CONTENT_SCRIPT;
+    settings = message.content;
+
+    chrome.tabs.query({ url: "*://www.youtube.com/*" }, (tabs) => {
+        for (let index = 0; index < tabs.length; index++) {
+            const tab = tabs[index];
+            if (tab.id !== undefined) chrome.tabs.sendMessage(tab.id, message);
+        }
+    });
 }
 
 let configTabId: number | undefined = undefined;

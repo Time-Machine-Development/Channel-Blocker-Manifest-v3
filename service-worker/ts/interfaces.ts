@@ -40,6 +40,19 @@ export interface StorageChangedMessage extends Message {
     content: undefined;
 }
 
+export interface RequestSettingsMessage extends Message {
+    content: undefined;
+}
+
+export interface SettingsChangedMessage extends Message {
+    content: {
+        buttonVisible: boolean;
+        buttonColor: string;
+        buttonSize: number;
+        animationSpeed: number;
+    };
+}
+
 export interface KeyValueMap {
     [key: string]: string;
 }

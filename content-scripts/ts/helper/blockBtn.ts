@@ -54,21 +54,46 @@ function updateBlockBtnCSS() {
     //define width, strokeColor and display depending on contentUIConfig (defined in config.js)
 
     //add the new rules
-    style.sheet.insertRule(`
-		.cb_block_button {
-			padding-left: 0em;
-			padding-right: 0.5rem;
-			border: none;
-			background-color: Transparent;
-			cursor: pointer;
-			width: 1.56rem;
-			stroke: rgb(113, 113, 113);
-			display: inline-flex;
-			flex-shrink: 0;
-			justify-content: center;
-    		align-items: center;
-		}
-	`);
+    if (buttonVisible) {
+        style.sheet.insertRule(`
+            .cb_block_button {
+                background-color: Transparent;
+                border: none;
+                stroke: ${buttonColor};
+                cursor: pointer;
+                width: ${buttonSize * 0.01 + 0.4}em;
+            }
+        `);
+        style.sheet.insertRule(`
+            *:has(> .cb_block_button) { 
+                display: flex !important;
+                align-items: center !important;
+            }
+        `);
+        /*
+        style.sheet.insertRule(`
+            .cb_block_button {
+                padding-left: 0em;
+                padding-right: 0.5rem;
+                border: none;
+                background-color: Transparent;
+                cursor: pointer;
+                width: 1.56rem;
+                stroke: ${buttonColor};
+                display: inline-flex;
+                flex-shrink: 0;
+                justify-content: center;
+                align-items: center;
+            }
+        `);
+        */
+    } else {
+        style.sheet.insertRule(`
+            .cb_block_button {
+                display: none;
+            }
+        `);
+    }
 
     style.sheet.insertRule(`
 		.cb_block_button svg{

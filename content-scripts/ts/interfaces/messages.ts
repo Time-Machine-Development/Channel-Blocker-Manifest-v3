@@ -37,3 +37,16 @@ interface IsBlockedMessage extends Message {
 interface StorageChangedMessage extends Message {
     content: undefined;
 }
+
+interface RequestSettingsMessage extends Message {
+    content: undefined;
+}
+
+interface SettingsChangedMessage extends Message {
+    content: {
+        buttonVisible: boolean;
+        buttonColor: string;
+        buttonSize: number;
+        animationSpeed: number;
+    };
+}

@@ -1,5 +1,5 @@
-import { SettingsDesign } from "./enums.js";
-import { SettingsStorageObject } from "./interfaces.js";
+import { CommunicationRole, MessageType, SettingsDesign } from "./enums.js";
+import { SettingsStorageObject, SettingsChangedMessage } from "./interfaces.js";
 
 const modeDropdown = document.getElementById("mode-dropdown") as HTMLSelectElement;
 const btnColorInput = document.getElementById("block-btn-color-picker") as HTMLInputElement;
@@ -17,7 +17,7 @@ let defaultStorage: SettingsStorageObject = {
         openPopup: false,
         buttonVisible: true,
         buttonColor: "#717171",
-        buttonSize: 106,
+        buttonSize: 142,
         animationSpeed: 200,
     },
 };
@@ -83,12 +83,14 @@ export function initAppearanceUI() {
         settings.buttonColor = btnColorInput.value;
         chrome.storage.local.set({ settings });
         updateBtnColor();
+        sendSettingChangedMessage();
     });
 
     btnSizeSlider.addEventListener("change", () => {
         settings.buttonSize = Number(btnSizeSlider.value);
         chrome.storage.local.set({ settings });
         updateBtnSize();
+        sendSettingChangedMessage();
     });
 
     popupCheckbox.addEventListener("change", () => {
@@ -101,17 +103,36 @@ export function initAppearanceUI() {
         settings.buttonVisible = showBtnCheckbox.checked;
         chrome.storage.local.set({ settings });
         updateShowBtn();
+        sendSettingChangedMessage();
     });
 
     animationSpeedSlider.addEventListener("change", () => {
         settings.animationSpeed = Number(animationSpeedSlider.value);
         chrome.storage.local.set({ settings });
         updateAnimationSpeed();
+        sendSettingChangedMessage();
     });
 
     resetBtn.addEventListener("click", () => {
         settings = { ...defaultStorage.settings };
         chrome.storage.local.set({ settings });
         updateUI();
+        sendSettingChangedMessage();
     });
+}
+
+function sendSettingChangedMessage() {
+    const message: SettingsChangedMessage = {
+        sender: CommunicationRole.SETTINGS,
+        receiver: CommunicationRole.SERVICE_WORKER,
+        type: MessageType.SETTINGS_CHANGED,
+        content: {
+            buttonVisible: settings.buttonVisible,
+            buttonColor: settings.buttonColor,
+            buttonSize: settings.buttonSize,
+            animationSpeed: settings.animationSpeed,
+        },
+    };
+    chrome.runtime.sendMessage(message);
+    console.log("send SettingsChangedMessage", message);
 }

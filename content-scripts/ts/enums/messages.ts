@@ -3,6 +3,8 @@ enum MessageType {
     REMOVE_BLOCKING_RULE,
     IS_BLOCKED,
     STORAGE_CHANGED,
+    REQUEST_SETTINGS,
+    SETTINGS_CHANGED,
 }
 
 enum CommunicationRole {

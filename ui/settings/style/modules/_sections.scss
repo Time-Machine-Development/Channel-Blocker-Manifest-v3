@@ -98,4 +98,19 @@
     &.space-top {
         margin-top: 16px;
     }
+
+    &.disabled {
+        cursor: not-allowed;
+
+        label,
+        select,
+        input,
+        span {
+            cursor: not-allowed;
+        }
+
+        label {
+            color: var(--font-color-disabled);
+        }
+    }
 }

@@ -28,6 +28,19 @@ export interface RemoveBlockingRuleMessage extends Message {
     };
 }
 
+export interface RequestSettingsMessage extends Message {
+    content: undefined;
+}
+
+export interface SettingsChangedMessage extends Message {
+    content: {
+        buttonVisible: boolean;
+        buttonColor: string;
+        buttonSize: number;
+        animationSpeed: number;
+    };
+}
+
 export interface IsBlockedMessage extends Message {
     content: {
         videoTitle?: string;
