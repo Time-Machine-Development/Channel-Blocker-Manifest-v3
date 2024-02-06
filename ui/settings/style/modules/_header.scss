@@ -1,0 +1,39 @@
+header {
+    display: flex;
+    flex-direction: row;
+
+    img.icon {
+        width: 32px;
+        height: 32px;
+
+        margin: 0 16px 0 0;
+    }
+
+    #burger-menu {
+        display: none;
+
+        margin: 0;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        width: fit-content;
+        min-width: auto;
+        background: none;
+
+        .icon {
+            width: 16px;
+            height: 16px;
+        }
+    }
+}
+
+@media (max-width: 950px) {
+    header {
+        #burger-menu {
+            display: block;
+        }
+        #icon {
+            display: none;
+        }
+    }
+}

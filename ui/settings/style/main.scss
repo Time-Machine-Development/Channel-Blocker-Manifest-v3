@@ -1,0 +1,58 @@
+@import "modules/variables";
+@import "modules/index";
+@import "modules/sections";
+@import "modules/navigation";
+@import "modules/header";
+@import "modules/switch";
+
+*,
+::before,
+::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+svg:not([fill]) {
+    fill: currentColor;
+}
+
+hr {
+    color: currentColor;
+    width: 100%;
+    border: inherit;
+    border-bottom: none;
+}
+
+[aria-busy="true"] {
+    cursor: progress;
+}
+
+[aria-controls],
+button {
+    cursor: pointer;
+}
+
+[aria-disabled="true"],
+[disabled] {
+    cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+        animation-delay: -1ms !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        background-attachment: initial !important;
+        scroll-behavior: auto !important;
+        transition-delay: 0s !important;
+        transition-duration: 0s !important;
+    }
+}

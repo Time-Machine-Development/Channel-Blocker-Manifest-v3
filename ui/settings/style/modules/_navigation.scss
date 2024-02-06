@@ -1,0 +1,62 @@
+header {
+    padding: 16px;
+
+    h1 {
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+}
+
+nav {
+    position: absolute;
+    max-width: 200px;
+    flex-shrink: 0;
+
+    overflow: hidden;
+    transition: max-width 0.3s ease-out;
+
+    ul {
+        li {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+
+            text-wrap: nowrap;
+
+            &.active,
+            &:hover {
+                border-radius: 0 var(--size-1) var(--size-1) 0;
+                border: none;
+                min-width: 100px;
+            }
+
+            &:hover {
+                background-color: var(--highlight-color);
+                color: var(--font-color);
+            }
+
+            &.active {
+                background-color: var(--primary-color);
+                color: var(--on-primary-color);
+            }
+
+            cursor: pointer;
+        }
+    }
+}
+
+@media (max-width: 1400px) {
+    nav {
+        position: initial;
+    }
+}
+
+@media (max-width: 950px) {
+    nav {
+        max-width: 0;
+
+        &.open {
+            max-width: 200px;
+        }
+    }
+}

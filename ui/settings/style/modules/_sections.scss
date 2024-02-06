@@ -1,0 +1,116 @@
+#main-container {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    flex-shrink: 1;
+
+    width: 100%;
+    padding: 0 32px 32px 32px;
+
+    h2 {
+        width: 100%;
+        min-width: 550px;
+        max-width: 680px;
+
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    h3 {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    h4 {
+        font-size: 14px;
+        font-weight: 500;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    p {
+        font-size: 14px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    .faq-heading {
+        cursor: pointer;
+    }
+
+    .faq-section {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+
+        &.active {
+            max-height: 500px;
+            transition: max-height 1s ease-out;
+        }
+    }
+}
+
+.settings-row {
+    display: flex;
+    justify-content: space-between;
+
+    label {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        font-size: 1rem;
+    }
+
+    input,
+    select {
+        width: 25%;
+    }
+
+    select {
+        background-color: var(--background-color);
+        color: var(--font-color);
+        padding: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    input[type="color"] {
+        border: none;
+        background: none;
+        height: 32px;
+        padding: 0;
+    }
+
+    input[type="range"] {
+        &::-webkit-slider-thumb {
+            background: var(--primary-color);
+        }
+    }
+
+    &.space-top {
+        margin-top: 16px;
+    }
+
+    &.disabled {
+        cursor: not-allowed;
+
+        label,
+        select,
+        input,
+        span {
+            cursor: not-allowed;
+        }
+
+        label {
+            color: var(--font-color-disabled);
+        }
+    }
+}

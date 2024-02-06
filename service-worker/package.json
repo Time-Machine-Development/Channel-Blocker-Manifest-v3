@@ -1,0 +1,24 @@
+{
+    "name": "channel-blocker-service-worker",
+    "version": "1.0.0",
+    "description": "The service worker of the channel blocker web extension.",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Time-Machine-Development/Channel-Blocker.git"
+    },
+    "author": "Marc Beyer",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Time-Machine-Development/Channel-Blocker/issues"
+    },
+    "homepage": "https://github.com/Time-Machine-Development/Channel-Blocker#readme",
+    "devDependencies": {
+        "@types/chrome": "^0.0.254",
+        "chrome-types": "^0.1.246",
+        "typescript": "^5.3.3"
+    }
+}

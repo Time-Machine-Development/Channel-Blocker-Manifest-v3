@@ -1,0 +1,31 @@
+{
+    "name": "channel-blocker",
+    "version": "1.0.0",
+    "description": "A web extension allowing you to block YouTube™ videos and comments by blacklisting users and/or by using regular expressions.",
+    "main": "index.js",
+    "scripts": {
+        "dev": "tsc -w",
+        "build": "tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Time-Machine-Development/Channel-Blocker.git"
+    },
+    "keywords": [
+        "channel",
+        "blocker",
+        "youtube",
+        "chrome-extension"
+    ],
+    "author": "Marc Beyer",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Time-Machine-Development/Channel-Blocker/issues"
+    },
+    "homepage": "https://github.com/Time-Machine-Development/Channel-Blocker#readme",
+    "devDependencies": {
+        "@types/chrome": "^0.0.254",
+        "chrome-types": "^0.1.246",
+        "typescript": "^5.3.3"
+    }
+}
