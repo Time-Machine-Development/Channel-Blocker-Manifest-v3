@@ -164,7 +164,7 @@ function createHomeObserver(): Observer[] {
 function createSearchObserver(): Observer[] {
     return [
         new Observer(
-            "div#contents[class='style-scope ytd-section-list-renderer']",
+            "ytd-search div#contents[class='style-scope ytd-section-list-renderer']",
             [],
             [
                 {
