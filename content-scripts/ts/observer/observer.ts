@@ -110,8 +110,12 @@ class Observer {
 
             const handleUserChannelName = () => {
                 userChannelName = userChannelNameElement.textContent ?? undefined;
-                if (observerOption.removeAtSign !== undefined && observerOption.removeAtSign[elementAndIndex.index]) {
-                    userChannelName = userChannelName?.substring(1);
+                if (
+                    userChannelName !== undefined &&
+                    observerOption.transformChannelName !== undefined &&
+                    observerOption.transformChannelName[elementAndIndex.index] !== undefined
+                ) {
+                    userChannelName = observerOption.transformChannelName[elementAndIndex.index](userChannelName);
                 }
                 button.setAttribute("title", "Block '" + userChannelName + "' (Channel Blocker)");
                 checkIfElementIsBlocked();
