@@ -44,6 +44,11 @@ function createVideoObserver() {
                         element.querySelector("ytd-channel-name")?.insertAdjacentElement("beforebegin", button);
                     },
                 ],
+                embeddedObserver: "ytd-item-section-renderer",
+            },
+            {
+                anchorSelector: "ytd-item-section-renderer",
+                embeddedObserver: "div#contents",
             },
         ]),
         new Observer(
