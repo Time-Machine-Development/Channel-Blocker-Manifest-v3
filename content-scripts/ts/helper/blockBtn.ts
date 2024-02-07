@@ -68,6 +68,13 @@ function updateBlockBtnCSS() {
             *:has(> .cb_block_button) { 
                 display: flex !important;
                 align-items: center !important;
+                flex-direction: row !important;
+                flex-wrap: nowrap !important;
+            }
+        `);
+        style.sheet.insertRule(`
+            .cb_block_button + * { 
+                overflow: hidden;
             }
         `);
         /*

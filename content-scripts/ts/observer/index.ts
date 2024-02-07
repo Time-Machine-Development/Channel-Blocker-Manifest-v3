@@ -34,6 +34,23 @@ function handleContextChange(context: YTContext) {
 
 function createVideoObserver() {
     return [
+        new Observer("div[class='ytp-endscreen-content']", [
+            {
+                anchorSelector: "a",
+                userChannelName: ["span[class='ytp-videowall-still-info-author']"],
+                videoTitle: ["span[class='ytp-videowall-still-info-title']"],
+                insertBlockBtn: [
+                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                        console.log("userChannelName", userChannelName);
+                    },
+                ],
+                transformChannelName: [
+                    (userChannelName) => {
+                        return userChannelName.split(" • ")[0];
+                    },
+                ],
+            },
+        ]),
         new Observer("div#items[class='style-scope ytd-watch-next-secondary-results-renderer']", [
             {
                 anchorSelector: "ytd-compact-video-renderer",
@@ -44,6 +61,11 @@ function createVideoObserver() {
                         element.querySelector("ytd-channel-name")?.insertAdjacentElement("beforebegin", button);
                     },
                 ],
+                embeddedObserver: "ytd-item-section-renderer",
+            },
+            {
+                anchorSelector: "ytd-item-section-renderer",
+                embeddedObserver: "div#contents",
             },
         ]),
         new Observer(
@@ -64,7 +86,14 @@ function createVideoObserver() {
                             element.querySelector("span#author-comment-badge")?.insertAdjacentElement("beforebegin", button);
                         },
                     ],
-                    removeAtSign: [true, true],
+                    transformChannelName: [
+                        (userChannelName) => {
+                            return userChannelName.substring(1);
+                        },
+                        (userChannelName) => {
+                            return userChannelName.substring(1);
+                        },
+                    ],
                     embeddedObserver: "div#contents",
                 },
                 {
@@ -82,26 +111,17 @@ function createVideoObserver() {
                             element.querySelector("span#author-comment-badge")?.insertAdjacentElement("beforebegin", button);
                         },
                     ],
-                    removeAtSign: [true, true],
+                    transformChannelName: [
+                        (userChannelName) => {
+                            return userChannelName.substring(1);
+                        },
+                        (userChannelName) => {
+                            return userChannelName.substring(1);
+                        },
+                    ],
                 },
             ]
         ),
-    ];
-    return [
-        new Observer("div#primary div#contents[class=' style-scope ytd-item-section-renderer style-scope ytd-item-section-renderer']", [
-            {
-                anchorSelector: "ytd-comment-thread-renderer",
-                userChannelName: ["yt-formatted-string[class=' style-scope ytd-comment-renderer style-scope ytd-comment-renderer']"],
-                commentContent: ["yt-formatted-string#content-text"],
-                insertBlockBtn: [
-                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
-                        element.querySelector("div#header-author")?.insertAdjacentElement("afterbegin", button);
-                    },
-                ],
-                removeAtSign: [true],
-                embeddedObserver: "div#contents",
-            },
-        ]),
     ];
 }
 

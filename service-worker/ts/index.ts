@@ -1,22 +1,22 @@
-import { CommunicationRole, MessageType } from "./enums.js";
+import { CommunicationRole, MessageType, SettingsDesign } from "./enums.js";
+import { KeyValueMap, StorageObject, OldStorageObject, SettingsStorageObject } from "./interfaces/storage.js";
 import {
     AddBlockingRuleMessage,
     IsBlockedMessage,
-    KeyValueMap,
     Message,
     RemoveBlockingRuleMessage,
     RequestSettingsMessage,
     SettingsChangedMessage,
     StorageChangedMessage,
-    StorageObject,
-} from "./interfaces.js";
+} from "./interfaces/interfaces.js";
 
 console.log("START");
 
+const STORAGE_VERSION = "1.0";
 let storageObject: { [key: string]: number } = {};
 
 let defaultStorage: StorageObject = {
-    version: 0,
+    version: "0",
     blockedChannels: [],
     blockedChannelsRegExp: {},
     blockedComments: {},
@@ -45,9 +45,8 @@ function loadDataFromStorage() {
         const storageObject = result as StorageObject;
         console.log("Loaded stored data", storageObject);
 
-        if (storageObject.version === 0) {
-            // TODO handel old storage / first storage
-            chrome.storage.local.set({ version: 1.0 });
+        if (storageObject.version === "0") {
+            convertOldStorage();
         } else {
             for (let index = 0; index < storageObject.blockedChannels.length; index++) {
                 blockedChannelsSet.add(storageObject.blockedChannels[index]);
@@ -269,4 +268,160 @@ async function openConfig() {
             focused: true,
         });
     }
+}
+
+/**
+ * Loads the old storage data and converts it to the new format.
+ * It stores the new data and removes the old.
+ */
+function convertOldStorage() {
+    const defaultOldStorage: OldStorageObject = {
+        "0": {},
+        "1": {},
+        "2": {},
+        "3": {},
+        "4": {},
+        content_ui: {
+            "0": true,
+            "1": "#717171",
+            "2": 142,
+            "3": 200,
+        },
+        settings_ui: {
+            0: -1,
+            1: false,
+            2: false,
+        },
+    };
+    chrome.storage.local.get(defaultOldStorage).then((result) => {
+        const storageObject = result as OldStorageObject;
+        console.log("Loaded stored data", storageObject);
+
+        if (
+            storageObject[0] === undefined ||
+            storageObject[1] === undefined ||
+            storageObject[2] === undefined ||
+            storageObject[3] === undefined ||
+            storageObject[4] === undefined
+        ) {
+            return;
+        }
+
+        // Add blocked channels
+        for (const key in storageObject[0]) {
+            if (Object.prototype.hasOwnProperty.call(storageObject[0], key)) {
+                blockedChannelsSet.add(key);
+            }
+        }
+
+        // Add blocked blockedVideoTitles
+        for (const key in storageObject[1]) {
+            if (Object.prototype.hasOwnProperty.call(storageObject[1], key)) {
+                blockedVideoTitles[key] = storageObject[1][key] === 0 ? "i" : "";
+            }
+        }
+
+        // Add blocked blockedChannelsRegExp
+        for (const key in storageObject[2]) {
+            if (Object.prototype.hasOwnProperty.call(storageObject[2], key)) {
+                blockedChannelsRegExp[key] = storageObject[2][key] === 0 ? "i" : "";
+            }
+        }
+
+        // Add blocked blockedComments
+        for (const key in storageObject[3]) {
+            if (Object.prototype.hasOwnProperty.call(storageObject[3], key)) {
+                blockedComments[key] = storageObject[3][key] === 0 ? "i" : "";
+            }
+        }
+
+        // Add excluded channels
+        for (const key in storageObject[4]) {
+            if (Object.prototype.hasOwnProperty.call(storageObject[4], key)) {
+                excludedChannels.add(key);
+            }
+        }
+
+        // Add settings
+        let settingsStorageObject: SettingsStorageObject = {
+            version: STORAGE_VERSION,
+            settings: {
+                design: storageObject.settings_ui[0] + 1,
+                advancedView: storageObject.settings_ui[1],
+                openPopup: storageObject.settings_ui[2],
+                buttonVisible: storageObject.content_ui[0],
+                buttonColor: storageObject.content_ui[1],
+                buttonSize: storageObject.content_ui[2],
+                animationSpeed: storageObject.content_ui[3],
+            },
+        };
+
+        // Write data to storage
+        chrome.storage.local
+            .set({
+                version: STORAGE_VERSION,
+                blockedChannels: Array.from(blockedChannelsSet),
+                blockedChannelsRegExp,
+                blockedComments,
+                blockedVideoTitles,
+                excludedChannels: Array.from(excludedChannels),
+                settings: settingsStorageObject.settings,
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+            .then(() => {
+                // remove old storage
+                chrome.storage.local.remove(["0", "1", "2", "3", "4", "content_ui", "settings_ui"]);
+            });
+    });
+}
+
+/**
+ * Adds mock data to the storage.
+ * Just used for testing.
+ */
+function mockOldStorageData() {
+    console.log("Clear all data");
+    chrome.storage.local.clear();
+
+    console.log("Add mock data");
+    chrome.storage.local.set({
+        "0": {
+            test: 53,
+            test1: 53,
+            "This is a test": 53,
+            42: 53,
+        },
+        "1": {
+            "[\\u03A0-\\u1CC0]": 1,
+            is: 1,
+            "case-insensitive": 0,
+            "case-sensitive": 1,
+        },
+        "2": {
+            test: 1,
+            "case-insensitive": 0,
+            "case-sensitive": 1,
+        },
+        "3": {
+            test: 0,
+            "case-insensitive": 0,
+            "case-sensitive": 1,
+        },
+        "4": {
+            test: 53,
+        },
+        content_ui: {
+            "0": true,
+            "1": "#717171",
+            "2": 106,
+            "3": 200,
+        },
+        settings_ui: {
+            "0": 0,
+            "1": true,
+            "2": true,
+        },
+    });
 }

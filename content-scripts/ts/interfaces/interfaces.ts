@@ -4,7 +4,7 @@ interface ObserverOptions {
     userChannelName?: string[];
     commentContent?: string[];
     insertBlockBtn?: ((element: HTMLElement, userChannelNameElement: HTMLElement, button: HTMLButtonElement) => void)[];
-    removeAtSign?: boolean[];
+    transformChannelName?: ((channelName: string) => string)[];
     embeddedObserver?: string;
 }
 
