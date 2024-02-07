@@ -47,3 +47,5 @@ export interface OldStorageObject {
         "2": boolean; // open_popup
     };
 }
+
+export interface CombinedStorageObject extends SettingsStorageObject, StorageObject {}

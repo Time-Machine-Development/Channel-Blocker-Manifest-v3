@@ -1,5 +1,5 @@
-import { CommunicationRole, MessageType } from "./enums.js";
-import { KeyValueMap, StorageObject, OldStorageObject } from "./interfaces/storage.js";
+import { CommunicationRole, MessageType, SettingsDesign } from "./enums.js";
+import { KeyValueMap, StorageObject, OldStorageObject, SettingsStorageObject } from "./interfaces/storage.js";
 import {
     AddBlockingRuleMessage,
     IsBlockedMessage,
@@ -284,11 +284,11 @@ function convertOldStorage() {
         content_ui: {
             "0": true,
             "1": "#717171",
-            "2": 106,
+            "2": 142,
             "3": 200,
         },
         settings_ui: {
-            0: 0,
+            0: -1,
             1: false,
             2: false,
         },
@@ -342,6 +342,20 @@ function convertOldStorage() {
             }
         }
 
+        // Add settings
+        let settingsStorageObject: SettingsStorageObject = {
+            version: STORAGE_VERSION,
+            settings: {
+                design: storageObject.settings_ui[0] + 1,
+                advancedView: storageObject.settings_ui[1],
+                openPopup: storageObject.settings_ui[2],
+                buttonVisible: storageObject.content_ui[0],
+                buttonColor: storageObject.content_ui[1],
+                buttonSize: storageObject.content_ui[2],
+                animationSpeed: storageObject.content_ui[3],
+            },
+        };
+
         // Write data to storage
         chrome.storage.local
             .set({
@@ -351,13 +365,14 @@ function convertOldStorage() {
                 blockedComments,
                 blockedVideoTitles,
                 excludedChannels: Array.from(excludedChannels),
+                settings: settingsStorageObject.settings,
             })
             .catch((error) => {
                 console.error(error);
             })
             .then(() => {
                 // remove old storage
-                chrome.storage.local.remove(["0", "1", "2", "3", "4"]);
+                chrome.storage.local.remove(["0", "1", "2", "3", "4", "content_ui", "settings_ui"]);
             });
     });
 }
