@@ -18,7 +18,7 @@ interface OldStorageObject {
 }
 
 interface StorageObject {
-    version: number;
+    version: string;
 
     blockedChannels: string[];
     excludedChannels: string[];
@@ -29,7 +29,7 @@ interface StorageObject {
 }
 
 interface SettingsStorageObject {
-    version: number;
+    version: string;
 
     settings: {
         design: SettingsDesign;
