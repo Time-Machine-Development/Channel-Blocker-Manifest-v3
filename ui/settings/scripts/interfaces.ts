@@ -58,7 +58,7 @@ export interface KeyValueMap {
 }
 
 export interface StorageObject {
-    version: number;
+    version: string;
 
     blockedChannels: string[];
     excludedChannels: string[];
@@ -69,7 +69,7 @@ export interface StorageObject {
 }
 
 export interface SettingsStorageObject {
-    version: number;
+    version: string;
 
     settings: {
         design: SettingsDesign;

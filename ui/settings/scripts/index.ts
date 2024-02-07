@@ -42,7 +42,7 @@ let settingsState: SettingsState = SettingsState.BLOCKED_CHANNELS;
 let storageObject: { [key: string]: number } = {};
 
 let defaultStorage: StorageObject = {
-    version: 0,
+    version: "0",
     blockedChannels: [],
     blockedChannelsRegExp: {},
     blockedComments: {},
@@ -71,9 +71,9 @@ function loadDataFromStorage() {
         blockedComments = {};
         blockedVideoTitles = {};
 
-        if (storageObject.version === 0) {
+        if (storageObject.version === "0") {
             // TODO handel old storage / first storage
-            chrome.storage.local.set({ version: 1.0 });
+            chrome.storage.local.set({ version: "1.0" });
         } else {
             for (let index = 0; index < storageObject.blockedChannels.length; index++) {
                 blockedChannelsSet.add(storageObject.blockedChannels[index]);

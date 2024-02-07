@@ -10,7 +10,7 @@ const animationSpeedSlider = document.getElementById("animation-speed-slider") a
 const resetBtn = document.getElementById("reset-appearance-btn") as HTMLButtonElement;
 
 let defaultStorage: SettingsStorageObject = {
-    version: 0,
+    version: "0",
     settings: {
         design: SettingsDesign.DETECT,
         advancedView: false,
@@ -28,7 +28,7 @@ let settings = { ...defaultStorage.settings };
         const storageObject = result as SettingsStorageObject;
         console.log("Loaded stored data", storageObject);
 
-        if (storageObject.version === 0) {
+        if (storageObject.version === "0") {
             // TODO handel old storage / first storage
         } else {
             settings = storageObject.settings;
