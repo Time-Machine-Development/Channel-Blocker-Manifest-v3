@@ -1,9 +1,11 @@
-interface OldStorageObject {
-    "0"?: { [key: string]: number };
-    "1"?: { [key: string]: number };
-    "2"?: { [key: string]: number };
-    "3"?: { [key: string]: number };
-    "4"?: { [key: string]: number };
+import { SettingsDesign } from "../enums.js";
+
+export interface OldStorageObject {
+    "0"?: { [key: string]: number }; // blocked channels
+    "1"?: { [key: string]: number }; // video title RegExp
+    "2"?: { [key: string]: number }; // channel name RegExp
+    "3"?: { [key: string]: number }; // comment RegExp
+    "4"?: { [key: string]: number }; // excluded channels
     content_ui: {
         "0": boolean; // button_visible
         "1": string; // button_color
@@ -17,7 +19,11 @@ interface OldStorageObject {
     };
 }
 
-interface StorageObject {
+export interface KeyValueMap {
+    [key: string]: string;
+}
+
+export interface StorageObject {
     version: string;
 
     blockedChannels: string[];
@@ -28,7 +34,7 @@ interface StorageObject {
     blockedComments: KeyValueMap;
 }
 
-interface SettingsStorageObject {
+export interface SettingsStorageObject {
     version: string;
 
     settings: {
@@ -41,3 +47,5 @@ interface SettingsStorageObject {
         animationSpeed: number;
     };
 }
+
+export interface CombinedStorageObject extends SettingsStorageObject, StorageObject {}

@@ -1,5 +1,6 @@
 import { CommunicationRole, MessageType, SettingsDesign } from "./enums.js";
-import { SettingsStorageObject, SettingsChangedMessage } from "./interfaces.js";
+import { SettingsChangedMessage } from "./interfaces/interfaces.js";
+import { SettingsStorageObject } from "./interfaces/storage.js";
 
 const modeDropdown = document.getElementById("mode-dropdown") as HTMLSelectElement;
 const btnColorInput = document.getElementById("block-btn-color-picker") as HTMLInputElement;
@@ -10,7 +11,7 @@ const animationSpeedSlider = document.getElementById("animation-speed-slider") a
 const resetBtn = document.getElementById("reset-appearance-btn") as HTMLButtonElement;
 
 let defaultStorage: SettingsStorageObject = {
-    version: 0,
+    version: "0",
     settings: {
         design: SettingsDesign.DETECT,
         advancedView: false,
@@ -23,19 +24,21 @@ let defaultStorage: SettingsStorageObject = {
 };
 let settings = { ...defaultStorage.settings };
 
-(function loadSettingsDataFromStorage() {
+loadSettingsDataFromStorage();
+
+export function loadSettingsDataFromStorage() {
     chrome.storage.local.get(defaultStorage).then((result) => {
         const storageObject = result as SettingsStorageObject;
         console.log("Loaded stored data", storageObject);
 
-        if (storageObject.version === 0) {
+        if (storageObject.version === "0") {
             // TODO handel old storage / first storage
         } else {
             settings = storageObject.settings;
         }
         updateUI();
     });
-})();
+}
 
 function updateUI() {
     updateColorScheme();
