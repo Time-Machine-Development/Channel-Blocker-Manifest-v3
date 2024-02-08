@@ -243,6 +243,10 @@ function removeRule() {
     initAppearanceUI();
     initImportExport();
 
+    blockedChannelsSelect.addEventListener("change", (event) => {
+        blockedChannelsRemoveBtn.classList.toggle("outlined", blockedChannelsSelect.value === "");
+    });
+
     blockedChannelsAddBtn.addEventListener("click", addNewRule);
     blockedChannelsInput.addEventListener("keydown", (event) => {
         if (event.key == "Enter") addNewRule();
