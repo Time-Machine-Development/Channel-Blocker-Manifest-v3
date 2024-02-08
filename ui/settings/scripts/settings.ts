@@ -1,5 +1,6 @@
 import { CommunicationRole, MessageType, SettingsDesign } from "./enums.js";
-import { SettingsStorageObject, SettingsChangedMessage } from "./interfaces.js";
+import { SettingsChangedMessage } from "./interfaces/interfaces.js";
+import { SettingsStorageObject } from "./interfaces/storage.js";
 
 const modeDropdown = document.getElementById("mode-dropdown") as HTMLSelectElement;
 const btnColorInput = document.getElementById("block-btn-color-picker") as HTMLInputElement;
@@ -23,7 +24,9 @@ let defaultStorage: SettingsStorageObject = {
 };
 let settings = { ...defaultStorage.settings };
 
-(function loadSettingsDataFromStorage() {
+loadSettingsDataFromStorage();
+
+export function loadSettingsDataFromStorage() {
     chrome.storage.local.get(defaultStorage).then((result) => {
         const storageObject = result as SettingsStorageObject;
         console.log("Loaded stored data", storageObject);
@@ -35,7 +38,7 @@ let settings = { ...defaultStorage.settings };
         }
         updateUI();
     });
-})();
+}
 
 function updateUI() {
     updateColorScheme();

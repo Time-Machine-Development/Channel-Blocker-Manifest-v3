@@ -1,15 +1,10 @@
-import { CommunicationRole, MessageType, SettingsDesign, SettingsState } from "./enums.js";
-import {
-    AddBlockingRuleMessage,
-    CombinedStorageObject,
-    KeyValueMap,
-    Message,
-    RemoveBlockingRuleMessage,
-    StorageObject,
-} from "./interfaces.js";
+import { CommunicationRole, MessageType, SettingsState } from "./enums.js";
+import { AddBlockingRuleMessage, Message, RemoveBlockingRuleMessage } from "./interfaces/interfaces.js";
+import { KeyValueMap, StorageObject } from "./interfaces/storage.js";
 import { initFaq } from "./faq.js";
 import { initNavigation } from "./navigation.js";
 import { initAppearanceUI } from "./settings.js";
+import { initImportExport } from "./importExport.js";
 
 console.log("Settings scripts");
 
@@ -38,11 +33,12 @@ const importExportNav: HTMLLIElement = document.getElementById("import-export-na
 const aboutNav: HTMLLIElement = document.getElementById("about-nav") as HTMLLIElement;
 const faqNav: HTMLLIElement = document.getElementById("faq-nav") as HTMLLIElement;
 
+const STORAGE_VERSION = "1.0";
+
 let settingsState: SettingsState = SettingsState.BLOCKED_CHANNELS;
-let storageObject: { [key: string]: number } = {};
 
 let defaultStorage: StorageObject = {
-    version: "0",
+    version: STORAGE_VERSION,
     blockedChannels: [],
     blockedChannelsRegExp: {},
     blockedComments: {},
@@ -59,7 +55,7 @@ let blockedVideoTitles: KeyValueMap = {};
 
 loadDataFromStorage();
 
-function loadDataFromStorage() {
+export function loadDataFromStorage() {
     chrome.storage.local.get(defaultStorage).then((result) => {
         const storageObject = result as StorageObject;
         console.log("Loaded stored data", storageObject);
@@ -88,6 +84,10 @@ function loadDataFromStorage() {
 
         updateUI();
     });
+}
+
+export function setSettingsState(pSettingsState: SettingsState) {
+    settingsState = pSettingsState;
 }
 
 function updateUI() {
@@ -241,6 +241,7 @@ function removeRule() {
     initFaq();
     initNavigation();
     initAppearanceUI();
+    initImportExport();
 
     blockedChannelsAddBtn.addEventListener("click", addNewRule);
     blockedChannelsInput.addEventListener("keydown", (event) => {

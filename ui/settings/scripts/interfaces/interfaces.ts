@@ -1,4 +1,4 @@
-import { CommunicationRole, MessageType, SettingsDesign } from "./enums.js";
+import { CommunicationRole, MessageType } from "../enums.js";
 
 export interface Message {
     sender: CommunicationRole;
@@ -52,34 +52,3 @@ export interface IsBlockedMessage extends Message {
 export interface StorageChangedMessage extends Message {
     content: undefined;
 }
-
-export interface KeyValueMap {
-    [key: string]: string;
-}
-
-export interface StorageObject {
-    version: string;
-
-    blockedChannels: string[];
-    excludedChannels: string[];
-
-    blockedVideoTitles: KeyValueMap;
-    blockedChannelsRegExp: KeyValueMap;
-    blockedComments: KeyValueMap;
-}
-
-export interface SettingsStorageObject {
-    version: string;
-
-    settings: {
-        design: SettingsDesign;
-        advancedView: boolean;
-        openPopup: boolean;
-        buttonVisible: boolean;
-        buttonColor: string;
-        buttonSize: number;
-        animationSpeed: number;
-    };
-}
-
-export interface CombinedStorageObject extends SettingsStorageObject, StorageObject {}
