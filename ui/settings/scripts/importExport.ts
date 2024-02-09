@@ -1,5 +1,7 @@
-import { SettingsDesign, SettingsState } from "./enums.js";
+import { CommunicationRole, MessageType, SettingsDesign, SettingsState } from "./enums.js";
+import { clamp } from "./helper.js";
 import { loadDataFromStorage, setSettingsState } from "./index.js";
+import { StorageChangedMessage } from "./interfaces/interfaces.js";
 import { CombinedStorageObject, OldStorageObject } from "./interfaces/storage.js";
 import { loadSettingsDataFromStorage } from "./settings.js";
 
@@ -20,6 +22,8 @@ export function initImportExport() {
             fileReader.addEventListener(
                 "load",
                 () => {
+                    console.log("FileReader loaded");
+
                     try {
                         const fileContent = fileReader.result;
                         if (typeof fileContent === "string") {
@@ -29,6 +33,7 @@ export function initImportExport() {
                             } else {
                                 loadNewFormat(fileContentJson);
                             }
+                            sendStorageChangeMsg();
                         } else {
                             throw new Error("Could not read file.");
                         }
@@ -146,9 +151,12 @@ function loadOldFormat(oldStorageObject: OldStorageObject) {
 
         // Load settings
         if (oldStorageObject?.settings_ui?.[0] !== undefined) {
-            combinedStorageObject.settings.design = oldStorageObject.settings_ui[0] + 1;
+            // The old format only had two designs. Dark: 0 and Light: 1.
+            // Currently Device: 0 is the default, therefore adding 1 adjusts this.
+            combinedStorageObject.settings.design = clamp(0, 2, oldStorageObject.settings_ui[0] + 1);
         }
         if (oldStorageObject?.settings_ui?.[1] !== undefined) {
+            // No longer in use
             combinedStorageObject.settings.advancedView = oldStorageObject.settings_ui[1];
         }
         if (oldStorageObject?.settings_ui?.[2] !== undefined) {
@@ -161,10 +169,11 @@ function loadOldFormat(oldStorageObject: OldStorageObject) {
             combinedStorageObject.settings.buttonColor = oldStorageObject.content_ui[1];
         }
         if (oldStorageObject?.content_ui?.[2] !== undefined) {
-            combinedStorageObject.settings.buttonSize = oldStorageObject.content_ui[2];
+            // The old default was 106, but in the new implementation this is pretty small so add 36 to adjust.
+            combinedStorageObject.settings.buttonSize = clamp(100, 200, oldStorageObject.content_ui[2] + 36);
         }
         if (oldStorageObject?.content_ui?.[3] !== undefined) {
-            combinedStorageObject.settings.animationSpeed = oldStorageObject.content_ui[3];
+            combinedStorageObject.settings.animationSpeed = clamp(100, 200, oldStorageObject.content_ui[3]);
         }
 
         // Save data
@@ -201,9 +210,18 @@ function loadNewFormat(loadedStorageObject: CombinedStorageObject) {
     chrome.storage.local.get(defaultCombinedStorageObject).then((result) => {
         const storageObject = result as CombinedStorageObject;
 
+        console.log("NEW FORMAT", storageObject);
+        console.log("NEW FORMAT", loadedStorageObject);
+        console.log(
+            "filter",
+            loadedStorageObject.blockedChannels.filter((channel) => {
+                return !storageObject.blockedChannels.includes(channel);
+            })
+        );
+
         storageObject.blockedChannels.push(
             ...loadedStorageObject.blockedChannels.filter((channel) => {
-                storageObject.blockedChannels.includes(channel);
+                return !storageObject.blockedChannels.includes(channel);
             })
         );
         storageObject.blockedVideoTitles = { ...storageObject.blockedVideoTitles, ...loadedStorageObject.blockedVideoTitles };
@@ -211,7 +229,7 @@ function loadNewFormat(loadedStorageObject: CombinedStorageObject) {
         storageObject.blockedComments = { ...storageObject.blockedComments, ...loadedStorageObject.blockedComments };
         storageObject.excludedChannels.push(
             ...loadedStorageObject.excludedChannels.filter((channel) => {
-                storageObject.excludedChannels.includes(channel);
+                return !storageObject.excludedChannels.includes(channel);
             })
         );
         storageObject.settings = { ...storageObject.settings, ...loadedStorageObject.settings };
@@ -243,4 +261,18 @@ function download(data: BlobPart, filename: string, type: string) {
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
     }, 0);
+}
+
+/**
+ * Send a message to the service worker, that informs them that the storage was changed
+ */
+function sendStorageChangeMsg() {
+    const message: StorageChangedMessage = {
+        sender: CommunicationRole.SETTINGS,
+        receiver: CommunicationRole.SERVICE_WORKER,
+        type: MessageType.STORAGE_CHANGED,
+        content: undefined,
+    };
+    chrome.runtime.sendMessage(message);
+    console.log("sendStorageChangeMsg");
 }

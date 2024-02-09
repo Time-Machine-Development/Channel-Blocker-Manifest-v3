@@ -32,7 +32,7 @@ export function loadSettingsDataFromStorage() {
         console.log("Loaded stored data", storageObject);
 
         if (storageObject.version === "0") {
-            // TODO handel old storage / first storage
+            // Should not be possible because the service worker converts / fill the storage
         } else {
             settings = storageObject.settings;
         }
@@ -137,5 +137,4 @@ function sendSettingChangedMessage() {
         },
     };
     chrome.runtime.sendMessage(message);
-    console.log("send SettingsChangedMessage", message);
 }
