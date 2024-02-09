@@ -12,12 +12,29 @@
 
 <body class="detect-scheme">
     <header>
-        <img id="icon" class="icon" src="/images/CB_icon.svg" alt="CB_icon">
-        <button id="burger-menu">
-            <img id="burger-menu-icon" class="icon" src="/images/misc/Burger.svg" alt="burger-menu">
-        </button>
-        <h1>Settings</h1>
+        <div>
+            <img id="icon" class="icon" src="/images/CB_icon.svg" alt="CB_icon">
+            <button id="burger-menu">
+                <img id="burger-menu-icon" class="icon" src="/images/misc/Burger.svg" alt="burger-menu">
+            </button>
+            <h1>Settings</h1>
+        </div>
+        <div>
+            <button id="donate-btn">🤍 Donate</button>
+        </div>
     </header>
+    <div id="donation-container">
+        <div class="card">
+            <div class="head">
+                <h1>Choose your donation method:</h1>
+                <button id="close-donation-btn">✕</button>
+            </div>
+            <div class="main-section">
+                <button id="donate-btn-paypal">Donate via PayPal</button>
+                <button id="donate-btn-patreon">Become a Patreon</button>
+            </div>
+        </div>
+    </div>
     <div id="main-container">
         <nav id="main-nav">
             <ul>

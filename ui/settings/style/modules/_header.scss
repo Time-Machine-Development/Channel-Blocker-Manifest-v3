@@ -1,6 +1,12 @@
 header {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+
+    div {
+        display: flex;
+        flex-direction: row;
+    }
 
     img.icon {
         width: 32px;
