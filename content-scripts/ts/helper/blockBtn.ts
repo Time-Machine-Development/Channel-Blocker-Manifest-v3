@@ -6,8 +6,8 @@ function createBlockBtnSVG() {
     svg.setAttribute("viewBox", "0 0 100 100");
 
     let path = document.createElementNS(svgURI, "path");
-    path.setAttribute("d", "M 15,15 L 85,85 M 85,15 L 15,85");
-    path.setAttribute("style", "fill: transparent;stroke-linecap: round;stroke-width: 25;");
+    path.setAttribute("d", "M 10,10 L 90,90 M 90,10 L 10,90");
+    path.setAttribute("style", "fill: transparent;stroke-linecap: round;stroke-width: 20;");
 
     svg.appendChild(path);
 
@@ -61,7 +61,8 @@ function updateBlockBtnCSS() {
                 border: none;
                 stroke: ${buttonColor};
                 cursor: pointer;
-                width: ${buttonSize * 0.01 + 0.4}em;
+                margin: 0 0.5rem 0 0;
+                padding: 0;
             }
         `);
         style.sheet.insertRule(`
@@ -77,23 +78,6 @@ function updateBlockBtnCSS() {
                 overflow: hidden;
             }
         `);
-        /*
-        style.sheet.insertRule(`
-            .cb_block_button {
-                padding-left: 0em;
-                padding-right: 0.5rem;
-                border: none;
-                background-color: Transparent;
-                cursor: pointer;
-                width: 1.56rem;
-                stroke: ${buttonColor};
-                display: inline-flex;
-                flex-shrink: 0;
-                justify-content: center;
-                align-items: center;
-            }
-        `);
-        */
     } else {
         style.sheet.insertRule(`
             .cb_block_button {
@@ -105,9 +89,9 @@ function updateBlockBtnCSS() {
     style.sheet.insertRule(`
 		.cb_block_button svg{
 			display: block;
+            width: ${buttonSize * 0.1 - 2}px;
 		}
 	`);
-
     style.sheet.insertRule(`
         #items.blocked,
 		.blocked {
