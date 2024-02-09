@@ -52,3 +52,7 @@ export interface SettingsChangedMessage extends Message {
         animationSpeed: number;
     };
 }
+
+export interface Tab extends chrome.tabs.Tab {
+    id: number;
+}
