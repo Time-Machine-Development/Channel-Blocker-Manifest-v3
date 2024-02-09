@@ -5,6 +5,7 @@ import { initFaq } from "./faq.js";
 import { initNavigation } from "./navigation.js";
 import { initAppearanceUI } from "./settings.js";
 import { initImportExport } from "./importExport.js";
+import { initDonation } from "./donate.js";
 
 const blockedChannelsSelect: HTMLSelectElement = document.getElementById("blocked-channels") as HTMLSelectElement;
 const blockedChannelsInput: HTMLInputElement = document.getElementById("blocked-channels-input") as HTMLInputElement;
@@ -241,6 +242,7 @@ function removeRule() {
     initNavigation();
     initAppearanceUI();
     initImportExport();
+    initDonation();
 
     blockedChannelsSelect.addEventListener("change", (event) => {
         blockedChannelsRemoveBtn.classList.toggle("outlined", blockedChannelsSelect.value === "");
