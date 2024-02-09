@@ -6,8 +6,6 @@ import { initNavigation } from "./navigation.js";
 import { initAppearanceUI } from "./settings.js";
 import { initImportExport } from "./importExport.js";
 
-console.log("Settings scripts");
-
 const blockedChannelsSelect: HTMLSelectElement = document.getElementById("blocked-channels") as HTMLSelectElement;
 const blockedChannelsInput: HTMLInputElement = document.getElementById("blocked-channels-input") as HTMLInputElement;
 const blockedChannelsAddBtn: HTMLButtonElement = document.getElementById("blocked-channels-add-btn") as HTMLButtonElement;
@@ -88,6 +86,7 @@ export function loadDataFromStorage() {
 
 export function setSettingsState(pSettingsState: SettingsState) {
     settingsState = pSettingsState;
+    blockedChannelsRemoveBtn.classList.add("outlined");
 }
 
 function updateUI() {
@@ -255,49 +254,45 @@ function removeRule() {
     blockedChannelsRemoveBtn.addEventListener("click", removeRule);
 
     blockedChannelsNav.addEventListener("click", () => {
-        settingsState = SettingsState.BLOCKED_CHANNELS;
+        setSettingsState(SettingsState.BLOCKED_CHANNELS);
         updateUI();
     });
     blockedTitlesNav.addEventListener("click", () => {
-        settingsState = SettingsState.BLOCKED_TITLES;
+        setSettingsState(SettingsState.BLOCKED_TITLES);
         updateUI();
     });
     blockedNamesNav.addEventListener("click", () => {
-        settingsState = SettingsState.BLOCKED_NAMES;
+        setSettingsState(SettingsState.BLOCKED_NAMES);
         updateUI();
     });
     blockedCommentsNav.addEventListener("click", () => {
-        settingsState = SettingsState.BLOCKED_COMMENTS;
+        setSettingsState(SettingsState.BLOCKED_COMMENTS);
         updateUI();
     });
     excludedChannelsNav.addEventListener("click", () => {
-        settingsState = SettingsState.EXCLUDED_CHANNELS;
+        setSettingsState(SettingsState.EXCLUDED_CHANNELS);
         updateUI();
     });
     appearanceNav.addEventListener("click", () => {
-        settingsState = SettingsState.APPEARANCE;
+        setSettingsState(SettingsState.APPEARANCE);
         updateUI();
     });
     importExportNav.addEventListener("click", () => {
-        settingsState = SettingsState.IMPORT_EXPORT;
+        setSettingsState(SettingsState.IMPORT_EXPORT);
         updateUI();
     });
     aboutNav.addEventListener("click", () => {
-        settingsState = SettingsState.ABOUT;
+        setSettingsState(SettingsState.ABOUT);
         updateUI();
     });
     faqNav.addEventListener("click", () => {
-        settingsState = SettingsState.FAQ;
+        setSettingsState(SettingsState.FAQ);
         updateUI();
     });
 })();
 
 chrome.runtime.onMessage.addListener((message: Message, sender: chrome.runtime.MessageSender) => {
-    console.log(`new ${MessageType[message.type]} message for ${CommunicationRole[message.receiver]}`);
-
     if (message.receiver !== CommunicationRole.SETTINGS) return;
-
-    console.log(`new ${MessageType[message.type]} message`);
 
     switch (message.type) {
         case MessageType.STORAGE_CHANGED:
