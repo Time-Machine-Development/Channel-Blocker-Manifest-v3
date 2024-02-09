@@ -8,8 +8,7 @@ import {
     SettingsChangedMessage,
     StorageChangedMessage,
 } from "./interfaces/interfaces.js";
-import { clamp } from "./helper.js";
-import { configTabId } from "./index.js";
+import { clamp, getConfigTabs } from "./helper.js";
 
 let defaultStorage: StorageObject = {
     version: "0",
@@ -219,14 +218,16 @@ async function sendStorageChangedMessage() {
         }
     });
 
-    if (configTabId !== undefined) {
+    const configTabs = await getConfigTabs();
+    for (let index = 0; index < configTabs.length; index++) {
+        const tab = configTabs[index];
         const storageChangedMessageForSettings = {
             sender: CommunicationRole.SERVICE_WORKER,
             receiver: CommunicationRole.SETTINGS,
             type: MessageType.STORAGE_CHANGED,
             content: undefined,
         };
-        chrome.tabs.sendMessage(configTabId, storageChangedMessageForSettings);
+        chrome.tabs.sendMessage(tab.id, storageChangedMessageForSettings);
     }
 }
 

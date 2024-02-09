@@ -1,4 +1,5 @@
 import { CommunicationRole, MessageType } from "./enums.js";
+import { getConfigTabs } from "./helper.js";
 import { Message } from "./interfaces/interfaces.js";
 import {
     handleAddBlockingRuleMessage,
@@ -10,15 +11,11 @@ import {
     sendSettingsChangedMessage,
 } from "./storage.js";
 
-console.log("START");
-
-export let configTabId: number | undefined = undefined;
-
 loadDataFromStorage();
 initListeners();
 
 /**
- * Add a message listener, a browser cation listener and on tab removed listener.
+ * Adds a message listener and a browser cation listener.
  */
 function initListeners() {
     chrome.runtime.onMessage.addListener(
@@ -53,29 +50,24 @@ function initListeners() {
 
     //open config page as default behavior of clicking the browserAction-button
     chrome.action.onClicked.addListener(openConfig);
-
-    //if config tab was closed set configTabId to null
-    chrome.tabs.onRemoved.addListener((tabId) => {
-        if (tabId === configTabId) configTabId = undefined;
-    });
 }
 
 //if an open config page exists makes config tab active, otherwise creates new config tab and make it active
 async function openConfig() {
-    if (configTabId === undefined) {
-        let tab = await chrome.tabs.create({
+    const configTabs = await getConfigTabs();
+    if (configTabs.length > 0) {
+        const tab = configTabs[0];
+        await chrome.tabs.update(tab.id, {
+            active: true,
+        });
+
+        chrome.windows.update(tab.windowId, {
+            focused: true,
+        });
+    } else {
+        chrome.tabs.create({
             active: true,
             url: "./ui/settings/index.html",
-        });
-
-        configTabId = tab.id;
-    } else {
-        let tab = await chrome.tabs.update(configTabId, {
-            active: true,
-        });
-
-        await chrome.windows.update(tab.windowId, {
-            focused: true,
         });
     }
 }
