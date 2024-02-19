@@ -41,21 +41,6 @@
         margin-top: 8px;
         margin-bottom: 8px;
     }
-
-    .faq-heading {
-        cursor: pointer;
-    }
-
-    .faq-section {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.5s ease-out;
-
-        &.active {
-            max-height: 500px;
-            transition: max-height 1s ease-out;
-        }
-    }
 }
 
 .settings-row {
