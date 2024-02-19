@@ -17,7 +17,7 @@
 
 ### About this Extension
 
-Our Add-on enables the function of blocking anything you'd like. Block separate videos, users or whole channels with only one click! Naturally, the add-on supports regular expressions to ensure you the best customization possible. And another thing: no user information is collected.
+Channel Blocker enables the function of blocking anything you'd like. Block separate videos, users or whole channels with only one click! Naturally, the add-on supports regular expressions to ensure you the best customization possible. And another thing: no user information is collected.
 
 Do you like what we do? Do you want to support us and our work? A subscription on Patreon or a donation would help a lot at developing this tool as well as realizing our future projects.
 
@@ -36,7 +36,7 @@ Do you like what we do? Do you want to support us and our work? A subscription o
 
 ### Installation
 
-Before you begin, ensure that you have [download and install Node.js and npm](https://nodejs.org/en/download/).
+Before you begin, ensure that you have [downloaded and installed Node.js and npm](https://nodejs.org/en/download/).
 
 This project is composed of three npm projects: `content-scripts`, `service-worker` and `ui`.
 
