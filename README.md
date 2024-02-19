@@ -21,16 +21,16 @@ Our Add-on enables the function of blocking anything you'd like. Block separate 
 
 Do you like what we do? Do you want to support us and our work? A subscription on Patreon or a donation would help a lot at developing this tool as well as realizing our future projects.
 
+---
+
 ### Screenshots
 
 <p align="center">
-    <img src="assets/screenshot-1.png" width="310">
-    <img src="assets/screenshot-2.png" width="310">
-    <img src="assets/screenshot-3.png" width="310">
-    <img src="assets/screenshot-4.png" width="310">
+    <img src="assets/screenshot-1.png" width="350">
+    <img src="assets/screenshot-2.png" width="350">
+    <img src="assets/screenshot-3.png" width="350">
+    <img src="assets/screenshot-4.png" width="350">
 </p>
-
----
 
 ## Getting Started
 
