@@ -11,14 +11,26 @@ export function initFaq() {
 
     faqPermissionHeading.addEventListener("click", () => {
         faqPermissionSection.classList.toggle("active");
+        faqContactSection.classList.toggle("active", false);
+        faqPrivacySection.classList.toggle("active", false);
+        faqTroubleshootingSection.classList.toggle("active", false);
     });
     faqContactHeading.addEventListener("click", () => {
+        faqPermissionSection.classList.toggle("active", false);
         faqContactSection.classList.toggle("active");
+        faqPrivacySection.classList.toggle("active", false);
+        faqTroubleshootingSection.classList.toggle("active", false);
     });
     faqPrivacyHeading.addEventListener("click", () => {
+        faqPermissionSection.classList.toggle("active", false);
+        faqContactSection.classList.toggle("active", false);
         faqPrivacySection.classList.toggle("active");
+        faqTroubleshootingSection.classList.toggle("active", false);
     });
     faqTroubleshootingHeading.addEventListener("click", () => {
+        faqPermissionSection.classList.toggle("active", false);
+        faqContactSection.classList.toggle("active", false);
+        faqPrivacySection.classList.toggle("active", false);
         faqTroubleshootingSection.classList.toggle("active");
     });
 }
