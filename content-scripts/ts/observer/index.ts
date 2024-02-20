@@ -42,7 +42,7 @@ function createVideoObserver() {
                 videoTitle: ["span[class='ytp-videowall-still-info-title']"],
                 insertBlockBtn: [
                     (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
-                        console.log("userChannelName", userChannelName);
+                        // No block button is inserted
                     },
                 ],
                 transformChannelName: [
@@ -248,8 +248,6 @@ function createSearchObserver(): Observer[] {
 }
 
 function updateObserver() {
-    console.log("updateObserver");
-
     for (let index = 0; index < activeObserver.length; index++) {
         activeObserver[index].update();
     }
@@ -261,8 +259,6 @@ let buttonSize: number = 142;
 let animationSpeed: number = 200;
 
 function updateSettings(message: SettingsChangedMessage) {
-    console.log("update Settings", message.content);
-
     buttonVisible = message.content.buttonVisible;
     buttonColor = message.content.buttonColor;
     buttonSize = message.content.buttonSize;
@@ -272,26 +268,18 @@ function updateSettings(message: SettingsChangedMessage) {
 }
 
 chrome.runtime.onMessage.addListener((message: Message, sender: chrome.runtime.MessageSender) => {
-    console.log(`new ${MessageType[message.type]} message for ${CommunicationRole[message.receiver]}`);
-
     if (message.receiver !== CommunicationRole.CONTENT_SCRIPT) return;
-
-    console.log(`new ${MessageType[message.type]} message`);
 
     switch (message.type) {
         case MessageType.STORAGE_CHANGED:
-            console.log(`updateObserver 1`);
             updateObserver();
             break;
 
         case MessageType.SETTINGS_CHANGED:
-            console.log(`updateObserver 1`);
             updateSettings(message);
             break;
 
         default:
-            console.log("Häääää");
-
             break;
     }
 });

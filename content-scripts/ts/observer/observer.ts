@@ -29,7 +29,6 @@ class Observer {
 
     protected async addObserver() {
         const element: Element = typeof this.target === "string" ? await getElement(this.target) : this.target;
-        console.log(`Observe: `, element);
 
         for (let index = 0; index < element.children.length; index++) {
             this.handleChild(element.children[index]);
@@ -82,8 +81,6 @@ class Observer {
         this.isBlockedValidators.push(checkIfElementIsBlocked);
 
         element.querySelectorAll("button[class='cb_block_button']").forEach((blockButton) => {
-            console.log(`remove block button`);
-
             blockButton.remove();
         });
 
@@ -152,8 +149,6 @@ class Observer {
 
         if (observerOption.embeddedObserver !== undefined) {
             const target = element.querySelector(observerOption.embeddedObserver);
-            console.log("embeddedObserver", target);
-
             if (target !== null) {
                 activeObserver.push(new Observer(target, this.observerOptions, this.subObserver));
             }
