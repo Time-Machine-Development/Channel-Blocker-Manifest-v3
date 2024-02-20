@@ -34,6 +34,7 @@ function handleContextChange(context: YTContext) {
 
 function createVideoObserver() {
     return [
+        new VideoCreatorObserver(),
         new Observer("div[class='ytp-endscreen-content']", [
             {
                 anchorSelector: "a",

@@ -61,8 +61,8 @@ function updateBlockBtnCSS() {
                 border: none;
                 stroke: ${buttonColor};
                 cursor: pointer;
-                margin: 0 0.5rem 0 0;
-                padding: 0;
+                margin: 0;
+                padding: 0 0.5rem 0 0;
             }
         `);
         style.sheet.insertRule(`
@@ -76,6 +76,11 @@ function updateBlockBtnCSS() {
         style.sheet.insertRule(`
             .cb_block_button + * { 
                 overflow: hidden;
+            }
+        `);
+        style.sheet.insertRule(`
+            .cb_block_button.cb_large { 
+                padding: 16px;
             }
         `);
     } else {
