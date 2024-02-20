@@ -23,18 +23,16 @@
             <button id="donate-btn">🤍 Donate</button>
         </div>
     </header>
-    <div id="donation-container">
-        <div class="card">
-            <div class="head">
-                <h1>Choose your donation method</h1>
-                <button id="close-donation-btn">✕</button>
-            </div>
-            <div class="main-section">
-                <button id="donate-btn-paypal">Donate via PayPal</button>
-                <button id="donate-btn-patreon">Become a Patreon</button>
-            </div>
+    <dialog id="donation-dialog">
+        <div class="head">
+            <h1>Choose your donation method</h1>
+            <button id="close-donation-btn">✕</button>
         </div>
-    </div>
+        <div class="main-section">
+            <button id="donate-btn-paypal">Donate via PayPal</button>
+            <button id="donate-btn-patreon">Become a Patreon</button>
+        </div>
+    </dialog>
     <div id="main-container">
         <nav id="main-nav">
             <ul>
@@ -96,10 +94,10 @@
                     <input type="range" name="btn-size-slider" id="btn-size-slider" min="100" max="200">
                 </div>
                 <hr>
-                <div class="settings-row disabled">
+                <div class="settings-row disabled" title="Not yet implemented">
                     <label for="popup-checkbox">Open quick popup when pressing toolbar-button</label>
                     <label class="switch">
-                        <input value="true" type="checkbox" id="popup-checkbox">
+                        <input value="true" type="checkbox" id="popup-checkbox" disabled>
                         <span class="slider round"></span>
                     </label>
                 </div>
@@ -114,9 +112,10 @@
                     </label>
                 </div>
                 <hr>
-                <div class="settings-row disabled">
+                <div class="settings-row disabled" title="Not yet implemented">
                     <label for="animation-speed-slider">Speed of block-animation</label>
-                    <input type="range" name="animation-speed-slider" id="animation-speed-slider" min="0" max="2000">
+                    <input type="range" name="animation-speed-slider" id="animation-speed-slider" min="0" max="2000"
+                        disabled>
                 </div>
             </div>
             <div class="align-right card-like">
