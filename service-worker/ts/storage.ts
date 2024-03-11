@@ -269,7 +269,7 @@ function convertOldStorage() {
         content_ui: {
             "0": true,
             "1": "#717171",
-            "2": 142,
+            "2": 106,
             "3": 200,
         },
         settings_ui: {
