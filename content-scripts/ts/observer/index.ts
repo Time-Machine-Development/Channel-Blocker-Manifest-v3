@@ -177,6 +177,17 @@ function createHomeObserver(): Observer[] {
                         },
                     ],
                 },
+                {
+                    targetSelector: "ytd-rich-section-renderer",
+                    anchorSelector: "div#contents",
+                    observerOptions: [
+                        {
+                            anchorSelector: "ytd-rich-item-renderer",
+                            userChannelName: ["a[class='yt-simple-endpoint style-scope yt-formatted-string']"],
+                            videoTitle: ["yt-formatted-string#video-title[class='style-scope ytd-rich-grid-media']"],
+                        },
+                    ],
+                },
             ]
         ),
     ];
