@@ -8,6 +8,7 @@ import {
     handleRequestSettings,
     handleStorageChangedMessage,
     loadDataFromStorage,
+    loadDataIfNecessary,
     sendSettingsChangedMessage,
 } from "./storage.js";
 
@@ -19,8 +20,10 @@ initListeners();
  */
 function initListeners() {
     chrome.runtime.onMessage.addListener(
-        (message: Message, sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) => {
+        async (message: Message, sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) => {
             if (message.receiver !== CommunicationRole.SERVICE_WORKER) return;
+
+            loadDataIfNecessary();
 
             switch (message.type) {
                 case MessageType.ADD_BLOCKING_RULE:

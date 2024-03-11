@@ -21,6 +21,7 @@ let defaultStorage: StorageObject = {
 
 const STORAGE_VERSION = "1.0";
 
+let storageVersion: string | undefined = undefined;
 let settings = {
     buttonVisible: true,
     buttonColor: "#717171",
@@ -34,6 +35,17 @@ let excludedChannels = new Set<string>();
 let blockedChannelsRegExp: KeyValueMap = {};
 let blockedComments: KeyValueMap = {};
 let blockedVideoTitles: KeyValueMap = {};
+
+export async function loadDataIfNecessary() {
+    if (storageVersion != STORAGE_VERSION) {
+        await loadDataFromStorage();
+
+        console.log("Reload data");
+
+        sendStorageChangedMessage();
+        sendSettingsChangedMessage();
+    }
+}
 
 /**
  * Load the blocking rules and settings.
@@ -63,6 +75,7 @@ export async function loadDataFromStorage() {
     settings.buttonColor = result.settings.buttonColor;
     settings.buttonSize = result.settings.buttonSize;
     settings.animationSpeed = result.settings.animationSpeed;
+    storageVersion = STORAGE_VERSION;
 }
 
 /**
@@ -70,10 +83,6 @@ export async function loadDataFromStorage() {
  * @param message The message containing the blocking rule to add.
  */
 export function handleAddBlockingRuleMessage(message: AddBlockingRuleMessage) {
-    if (blockedChannelsSet.size === 0) {
-        loadDataFromStorage();
-    }
-
     if (message.content.blockedChannel !== undefined) {
         blockedChannelsSet.add(message.content.blockedChannel);
         chrome.storage.local.set({ blockedChannels: Array.from(blockedChannelsSet) });
@@ -103,10 +112,6 @@ export function handleAddBlockingRuleMessage(message: AddBlockingRuleMessage) {
  * @param message The message containing the blocking rule to remove.
  */
 export function handleRemoveBlockingRuleMessage(message: RemoveBlockingRuleMessage) {
-    if (blockedChannelsSet.size === 0) {
-        loadDataFromStorage();
-    }
-
     if (message.content.blockedChannel !== undefined) {
         for (let index = 0; index < message.content.blockedChannel.length; index++) {
             blockedChannelsSet.delete(message.content.blockedChannel[index]);
