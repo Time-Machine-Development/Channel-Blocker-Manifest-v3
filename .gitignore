@@ -89,7 +89,6 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/
@@ -131,3 +130,8 @@ dist
 
 # MacOS junk
 .DS_Store
+
+# Build folder
+dist
+dist-firefox
+bin
