@@ -69,60 +69,76 @@ function createVideoObserver() {
                 embeddedObserver: "div#contents",
             },
         ]),
-        new Observer(
-            "div#primary ytd-comments#comments div#contents[class=' style-scope ytd-item-section-renderer style-scope ytd-item-section-renderer']",
-            [
-                {
-                    anchorSelector: "ytd-comment-thread-renderer",
-                    userChannelName: [
-                        "yt-formatted-string[class=' style-scope ytd-comment-renderer style-scope ytd-comment-renderer']",
-                        "yt-formatted-string#text[class='style-scope ytd-channel-name']",
-                    ],
-                    commentContent: ["yt-formatted-string#content-text"],
-                    insertBlockBtn: [
-                        (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
-                            element.querySelector("div#header-author")?.insertAdjacentElement("afterbegin", button);
-                        },
-                        (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
-                            element.querySelector("span#author-comment-badge")?.insertAdjacentElement("beforebegin", button);
-                        },
-                    ],
-                    transformChannelName: [
-                        (userChannelName) => {
-                            return userChannelName.substring(1);
-                        },
-                        (userChannelName) => {
-                            return userChannelName.substring(1);
-                        },
-                    ],
-                    embeddedObserver: "div#contents",
-                },
-                {
-                    anchorSelector: "ytd-comment-renderer",
-                    userChannelName: [
-                        "yt-formatted-string[class=' style-scope ytd-comment-renderer style-scope ytd-comment-renderer']",
-                        "yt-formatted-string#text[class='style-scope ytd-channel-name']",
-                    ],
-                    commentContent: ["yt-formatted-string#content-text"],
-                    insertBlockBtn: [
-                        (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
-                            element.querySelector("div#header-author")?.insertAdjacentElement("afterbegin", button);
-                        },
-                        (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
-                            element.querySelector("span#author-comment-badge")?.insertAdjacentElement("beforebegin", button);
-                        },
-                    ],
-                    transformChannelName: [
-                        (userChannelName) => {
-                            return userChannelName.substring(1);
-                        },
-                        (userChannelName) => {
-                            return userChannelName.substring(1);
-                        },
-                    ],
-                },
-            ]
-        ),
+        // YT comments document.querySelectorAll("div#primary ytd-comments#comments div#contents:not(.ytd-comment-replies-renderer)")
+        new Observer("div#primary ytd-comments#comments div#contents:not(.ytd-comment-replies-renderer)", [
+            {
+                anchorSelector: "ytd-comment-thread-renderer",
+                userChannelName: ["#author-text", "#text-container"],
+                commentContent: ["#content-text"],
+                insertBlockBtn: [
+                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                        element.querySelector("div#header-author")?.insertAdjacentElement("afterbegin", button);
+                    },
+                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                        element.querySelector("span#author-comment-badge")?.insertAdjacentElement("beforebegin", button);
+                    },
+                ],
+                transformChannelName: [
+                    (userChannelName) => {
+                        return userChannelName.trim().substring(1);
+                    },
+                    (userChannelName) => {
+                        return userChannelName.trim().substring(1);
+                    },
+                ],
+                embeddedObserver: "div#contents",
+            },
+            {
+                anchorSelector: "ytd-comment-view-model",
+                userChannelName: ["#author-text", "#text-container"],
+                commentContent: ["#content-text"],
+                insertBlockBtn: [
+                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                        element.querySelector("div#header-author")?.insertAdjacentElement("afterbegin", button);
+                    },
+                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                        element.querySelector("span#author-comment-badge")?.insertAdjacentElement("beforebegin", button);
+                    },
+                ],
+                transformChannelName: [
+                    (userChannelName) => {
+                        return userChannelName.trim().substring(1);
+                    },
+                    (userChannelName) => {
+                        return userChannelName.trim().substring(1);
+                    },
+                ],
+            },
+            {
+                anchorSelector: "ytd-comment-renderer",
+                userChannelName: [
+                    "yt-formatted-string[class=' style-scope ytd-comment-renderer style-scope ytd-comment-renderer']",
+                    "yt-formatted-string#text[class='style-scope ytd-channel-name']",
+                ],
+                commentContent: ["yt-formatted-string#content-text"],
+                insertBlockBtn: [
+                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                        element.querySelector("div#header-author")?.insertAdjacentElement("afterbegin", button);
+                    },
+                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                        element.querySelector("span#author-comment-badge")?.insertAdjacentElement("beforebegin", button);
+                    },
+                ],
+                transformChannelName: [
+                    (userChannelName) => {
+                        return userChannelName.substring(1);
+                    },
+                    (userChannelName) => {
+                        return userChannelName.substring(1);
+                    },
+                ],
+            },
+        ]),
     ];
 }
 
