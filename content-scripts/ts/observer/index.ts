@@ -69,7 +69,30 @@ function createVideoObserver() {
                 embeddedObserver: "div#contents",
             },
         ]),
-        // YT comments document.querySelectorAll("div#primary ytd-comments#comments div#contents:not(.ytd-comment-replies-renderer)")
+        // New design (Video suggestions under main video)
+        new Observer(
+            "#bottom-grid #contents.ytd-rich-grid-renderer",
+            [],
+            [
+                {
+                    anchorSelector: "#contents",
+                    targetSelector: "ytd-rich-grid-row",
+                    observerOptions: [
+                        {
+                            userChannelName: ["#channel-name a"],
+                            videoTitle: ["#video-title"],
+                            insertBlockBtn: [
+                                (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
+                                    element.querySelector("ytd-channel-name")?.insertAdjacentElement("beforebegin", button);
+                                },
+                            ],
+                            anchorSelector: "ytd-rich-item-renderer",
+                        },
+                    ],
+                },
+            ]
+        ),
+        // YT comments
         new Observer("div#primary ytd-comments#comments div#contents:not(.ytd-comment-replies-renderer)", [
             {
                 anchorSelector: "ytd-comment-thread-renderer",
