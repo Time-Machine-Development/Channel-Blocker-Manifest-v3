@@ -1,6 +1,17 @@
 let activeObserver: Observer[] = [];
 let curYTContext: YTContext = YTContext.OTHER;
 
+/**
+ * Handles changes in the YouTube context and updates the active observer accordingly.
+ *
+ * @param {YTContext} context - The new YouTube context to handle. This can be one of the following:
+ *   - YTContext.HOME: The homepage (https://www.youtube.com/)
+ *   - YTContext.VIDEO: A video page (https://www.youtube.com/watch?v=<ID>)
+ *   - YTContext.SEARCH: A search results page (https://www.youtube.com/results?search_query=<INPUT>)
+ *   - YTContext.TRENDING: The trending page (https://www.youtube.com/feed/trending)
+ *
+ * @returns {void}
+ */
 function handleContextChange(context: YTContext) {
     if (curYTContext === context) return;
     curYTContext = context;
@@ -32,6 +43,15 @@ function handleContextChange(context: YTContext) {
     }
 }
 
+// The following functions create the observer for the YouTube pages
+// If something is broken, because of an update changing the structure of a page,
+// you most likely have to change the structure description here.
+
+/**
+ * Creates observer for the video page (i.e.: YTContext.VIDEO: https://www.youtube.com/watch?v=<ID>) and returns them.
+ *
+ * @returns an array of observer for the video page.
+ */
 function createVideoObserver() {
     return [
         new VideoCreatorObserver(),
@@ -211,6 +231,11 @@ function createVideoObserver() {
     ];
 }
 
+/**
+ * Creates observer for the trending page (i.e.: YTContext.TRENDING: https://www.youtube.com/feed/trending) and returns them.
+ *
+ * @returns an array of observer for the trending page.
+ */
 function createTrendingObserver() {
     return [
         new Observer(
@@ -239,10 +264,15 @@ function createTrendingObserver() {
     ];
 }
 
+/**
+ * Creates observer for the home page (i.e.: YTContext.HOME: https://www.youtube.com/) and returns them.
+ *
+ * @returns an array of observer for the home page.
+ */
 function createHomeObserver(): Observer[] {
     return [
         new Observer(
-            "div#contents[class='style-scope ytd-rich-grid-renderer']",
+            "ytd-browse #contents.ytd-rich-grid-renderer",
             [],
             [
                 {
@@ -278,6 +308,11 @@ function createHomeObserver(): Observer[] {
     ];
 }
 
+/**
+ * Creates observer for the search page (i.e.: YTContext.SEARCH: https://www.youtube.com/results?search_query=<INPUT>) and returns them.
+ *
+ * @returns an array of observer for the search page.
+ */
 function createSearchObserver(): Observer[] {
     return [
         new Observer(
@@ -343,6 +378,9 @@ function createSearchObserver(): Observer[] {
     ];
 }
 
+/**
+ * Updates all active observers by calling their `update` method.
+ */
 function updateObserver() {
     for (let index = 0; index < activeObserver.length; index++) {
         activeObserver[index].update();
@@ -354,6 +392,11 @@ let buttonColor: string = "#717171";
 let buttonSize: number = 142;
 let animationSpeed: number = 200;
 
+/**
+ * Updates the settings for the button appearance and behavior based on the provided message.
+ *
+ * @param {SettingsChangedMessage} message - The message containing the new settings.
+ */
 function updateSettings(message: SettingsChangedMessage) {
     buttonVisible = message.content.buttonVisible;
     buttonColor = message.content.buttonColor;
