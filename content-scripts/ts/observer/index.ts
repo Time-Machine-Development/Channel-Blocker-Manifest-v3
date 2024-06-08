@@ -120,7 +120,7 @@ function createVideoObserver() {
                 commentContent: ["#content-text"],
                 insertBlockBtn: [
                     (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
-                        element.querySelector("div#header-author")?.insertAdjacentElement("afterbegin", button);
+                        element.querySelector("#toolbar")?.append(button);
                     },
                     (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
                         element.querySelector("span#author-comment-badge")?.insertAdjacentElement("beforebegin", button);
@@ -142,7 +142,7 @@ function createVideoObserver() {
                 commentContent: ["#content-text"],
                 insertBlockBtn: [
                     (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
-                        element.querySelector("div#header-author")?.insertAdjacentElement("afterbegin", button);
+                        element.querySelector("#toolbar")?.append(button);
                     },
                     (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
                         element.querySelector("span#author-comment-badge")?.insertAdjacentElement("beforebegin", button);
