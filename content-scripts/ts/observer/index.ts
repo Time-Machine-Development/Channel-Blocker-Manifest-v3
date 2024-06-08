@@ -112,54 +112,8 @@ function createVideoObserver() {
                 },
             ]
         ),
-        // New design (Comments on the right of the main video)
+        // Comments for the old and new design (Comments on the right of the main video)
         new Observer("#comments #contents.ytd-item-section-renderer", [
-            {
-                anchorSelector: "ytd-comment-thread-renderer",
-                userChannelName: ["#author-text", "#text-container"],
-                commentContent: ["#content-text"],
-                insertBlockBtn: [
-                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
-                        element.querySelector("div#header-author")?.insertAdjacentElement("afterbegin", button);
-                    },
-                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
-                        element.querySelector("span#author-comment-badge")?.insertAdjacentElement("beforebegin", button);
-                    },
-                ],
-                transformChannelName: [
-                    (userChannelName) => {
-                        return userChannelName.trim().substring(1);
-                    },
-                    (userChannelName) => {
-                        return userChannelName.trim().substring(1);
-                    },
-                ],
-                embeddedObserver: "div#contents",
-            },
-            {
-                anchorSelector: "ytd-comment-view-model",
-                userChannelName: ["#author-text", "#text-container"],
-                commentContent: ["#content-text"],
-                insertBlockBtn: [
-                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
-                        element.querySelector("div#header-author")?.insertAdjacentElement("afterbegin", button);
-                    },
-                    (element: HTMLElement, userChannelName: HTMLElement, button: HTMLButtonElement) => {
-                        element.querySelector("span#author-comment-badge")?.insertAdjacentElement("beforebegin", button);
-                    },
-                ],
-                transformChannelName: [
-                    (userChannelName) => {
-                        return userChannelName.trim().substring(1);
-                    },
-                    (userChannelName) => {
-                        return userChannelName.trim().substring(1);
-                    },
-                ],
-            },
-        ]),
-        // YT comments
-        new Observer("div#primary ytd-comments#comments div#contents:not(.ytd-comment-replies-renderer)", [
             {
                 anchorSelector: "ytd-comment-thread-renderer",
                 userChannelName: ["#author-text", "#text-container"],
