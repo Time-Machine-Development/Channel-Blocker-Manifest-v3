@@ -227,7 +227,13 @@ function createHomeObserver(): Observer[] {
     return [
         new Observer(
             "ytd-browse #contents.ytd-rich-grid-renderer",
-            [],
+            [
+                {
+                    anchorSelector: "ytd-rich-item-renderer",
+                    userChannelName: ["yt-formatted-string#text"],
+                    videoTitle: ["yt-formatted-string#video-title"],
+                },
+            ],
             [
                 {
                     targetSelector: "ytd-rich-grid-row[class='style-scope ytd-rich-grid-renderer']",
